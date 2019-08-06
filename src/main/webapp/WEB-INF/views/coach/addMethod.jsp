@@ -21,12 +21,12 @@
 
     <br>
 
-    <label for="descriptionId">Name:</label>
+    <label for="descriptionId">Description:</label>
     <form:textarea type="text" rows="10" cols="50" path="description" id="descriptionId"/>
 
     <br>
 
-    <input type="submit" value="Login">
+    <input type="submit" value="Add">
 
 </form:form>
 </body>

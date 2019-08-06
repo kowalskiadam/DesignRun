@@ -21,6 +21,8 @@
 </head>
 <body>
 <a href="dashboard">Back to dashboard</a><br/>
+<a href="addMethod">Add method</a><br/>
+
 
 <br>
 <h2>methodsList</h2>

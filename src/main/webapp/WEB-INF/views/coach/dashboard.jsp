@@ -17,6 +17,7 @@
 Id: ${coach.id};
 Login: ${coach.login};
 <br>
+<a href="plansList">Manage plans</a><br/>
 <a href="athleteList">Manage athletes</a><br/>
 <a href="methodsList">Training methods</a><br/>
 <a href="advanced">Advanced</a><br/>

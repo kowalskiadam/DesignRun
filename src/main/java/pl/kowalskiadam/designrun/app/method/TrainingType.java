@@ -11,6 +11,8 @@ public class TrainingType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private boolean hide;
+
     private String name;
 
     private String description;
@@ -34,6 +36,14 @@ public class TrainingType {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isHide() {
+        return hide;
+    }
+
+    public void setHide(boolean hide) {
+        this.hide = hide;
     }
 
     public String getDescription() {

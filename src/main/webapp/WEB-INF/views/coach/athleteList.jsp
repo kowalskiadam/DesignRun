@@ -65,7 +65,6 @@
             <td>${athlete.firstName}</td>
             <td>${athlete.lastName}</td>
             <td>
-                <a href="/method/${method.id}/update/">Trainings</a>
                 <a href="#" onclick="confirmRemove(${coachId}, '${athlete.id}', '${athlete.login}')">Remove from your athletes</a>
             </td>
         </tr>

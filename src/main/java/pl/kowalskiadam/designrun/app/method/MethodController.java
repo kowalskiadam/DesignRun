@@ -61,5 +61,23 @@ public class MethodController {
         return "redirect:/coach/"+ownerId+"/methodsList";
     }
 
+    @GetMapping(value = "/details/addTraningType")
+    public String showAddTraningType(Model model, @PathVariable Long id) {
+
+        model.addAttribute("traningType", new TrainingType());
+        return "method/addTraningType";
+    }
+
+    @PostMapping(value = "/details/addTraningType")
+    public String executeAddTraningType(@ModelAttribute TrainingType trainingType, @PathVariable Long id){
+        Method method = methodRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        trainingType.setMethod(method);
+        trainingType.setHide(false);
+        trainingTypeRepository.save(trainingType);
+        return "redirect:/method/"+id+"/details";
+
+    }
+
+
 
 }

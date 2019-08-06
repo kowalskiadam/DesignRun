@@ -30,6 +30,11 @@
 
 </form:form>
 
+<h3>Operations</h3>
+
+<a href="addTraningType">Add new traning type</a><br/>
+
+
     <h3>Training types list</h3>
   <table>
         <tr>
@@ -44,6 +49,9 @@
                 <td>${trainingType.shortCut}</td>
                 <td>${trainingType.minDistance}</td>
                 <td>${trainingType.maxDistance}</td>
+                <td>
+                    <a href="/traningType/${trainingType.id}/details/">Details</a>
+                </td>
             </tr>
 
         </c:forEach>

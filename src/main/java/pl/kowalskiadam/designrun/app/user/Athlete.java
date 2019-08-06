@@ -1,11 +1,9 @@
 package pl.kowalskiadam.designrun.app.user;
 
 import org.hibernate.annotations.Cascade;
+import pl.kowalskiadam.designrun.app.plan.Plan;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,32 +11,18 @@ import java.util.List;
 @Table(name = "athletes")
 public class Athlete extends User {
 
-    private String firstName;
-
-    private String lastName;
-
     @ManyToMany(mappedBy = "athletes", cascade = CascadeType.PERSIST)
     private List<Coach> coaches = new ArrayList<>();
 
     @ManyToMany(mappedBy = "potentialAthletes", cascade = CascadeType.PERSIST)
     private List<Coach> potentialCoaches = new ArrayList<>();
 
+    @OneToMany(mappedBy = "athlete")
+    private List<Plan> plans;
 
-    public String getFirstName() {
-        return firstName;
-    }
+    private String firstName;
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+    private String lastName;
 
     public List<Coach> getCoaches() {
         return coaches;
@@ -54,5 +38,29 @@ public class Athlete extends User {
 
     public void setPotentialCoaches(List<Coach> potentialCoaches) {
         this.potentialCoaches = potentialCoaches;
+    }
+
+    public List<Plan> getPlans() {
+        return plans;
+    }
+
+    public void setPlans(List<Plan> plans) {
+        this.plans = plans;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
