@@ -7,10 +7,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TrainingTypeRepository extends JpaRepository<TrainingType, Long> {
-
-  //  List<TrainingType> getByMethodId(Long id);
-
-
+    
     @Query("select t from TrainingType t where t.method.id = :id")
     List<TrainingType> getByMethodId(@Param("id") Long id);
 }

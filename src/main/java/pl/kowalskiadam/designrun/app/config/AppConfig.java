@@ -15,6 +15,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import pl.kowalskiadam.designrun.app.method.MethodConverter;
+import pl.kowalskiadam.designrun.app.method.TrainingTypeConverter;
 import pl.kowalskiadam.designrun.app.user.AthleteConverter;
 
 import javax.persistence.EntityManagerFactory;
@@ -64,9 +66,21 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(getAthleteConverter());
+        registry.addConverter(getMethodConverter());
+        registry.addConverter(getTrainingTypeConverter());
     }
     @Bean
     public AthleteConverter getAthleteConverter() {
         return new AthleteConverter();
+    }
+
+    @Bean
+    public MethodConverter getMethodConverter() {
+        return new MethodConverter();
+    }
+
+    @Bean
+    public TrainingTypeConverter getTrainingTypeConverter() {
+        return new TrainingTypeConverter();
     }
 }

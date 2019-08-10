@@ -16,12 +16,19 @@
 <form:form method="post" modelAttribute="planForm">
 
     <label for="nameId">Name:</label>
-    <form:input type="text" path="name" id="nameId"/>
+    <form:input type="text" path="name" id="nameId" value="testPlan"/>
 
     <br>
 
     <label for="athleteId">Athlete:</label>
     <form:select path="athlete" items="${planForm.coachAthletes}" itemValue="id" itemLabel="login" id="athleteId"/>
+
+    <br>
+
+    <br>
+
+    <label for="methodId">Athlete:</label>
+    <form:select path="method" items="${planForm.coachMethods}" itemValue="id" itemLabel="name" id="methodId"/>
 
     <br>
 
@@ -31,7 +38,7 @@
     <br>
 
     <label for="weeksNumberid">Number of weeks in plan:</label>
-    <form:input type="number" path="weeksNumber" id="weeksNumberid"/>
+    <form:input type="number" value = "20" path="weeksNumber" id="weeksNumberid"/>
 
 
     <input type="submit" value="Add">

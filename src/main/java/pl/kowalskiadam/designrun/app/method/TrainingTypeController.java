@@ -8,12 +8,12 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/traningType/{id}")
-public class TraningTypeController {
+public class TrainingTypeController {
 
     private final MethodRepository methodRepository;
     private final TrainingTypeRepository trainingTypeRepository;
 
-    public TraningTypeController(MethodRepository methodRepository, TrainingTypeRepository trainingTypeRepository) {
+    public TrainingTypeController(MethodRepository methodRepository, TrainingTypeRepository trainingTypeRepository) {
         this.methodRepository = methodRepository;
         this.trainingTypeRepository = trainingTypeRepository;
     }

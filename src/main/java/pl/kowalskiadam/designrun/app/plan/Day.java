@@ -16,8 +16,11 @@ public class Day {
     @ManyToOne
     private Week week;
 
+    @ManyToOne
+    private Plan plan;
+
     @OneToMany(mappedBy = "day")
-    private List<Traning> tranings = new ArrayList<>();
+    private List<Training> trainings = new ArrayList<>();
 
     private LocalDate date;
 
@@ -35,12 +38,20 @@ public class Day {
         this.week = week;
     }
 
-    public List<Traning> getTranings() {
-        return tranings;
+    public Plan getPlan() {
+        return plan;
     }
 
-    public void setTranings(List<Traning> tranings) {
-        this.tranings = tranings;
+    public void setPlan(Plan plan) {
+        this.plan = plan;
+    }
+
+    public List<Training> getTrainings() {
+        return trainings;
+    }
+
+    public void setTrainings(List<Training> trainings) {
+        this.trainings = trainings;
     }
 
     public LocalDate getDate() {
@@ -64,7 +75,7 @@ public class Day {
         return "Day{" +
                 "id=" + id +
                 ", week=" + week +
-                ", tranings=" + tranings +
+                ", trainings=" + trainings +
                 ", date=" + date +
                 ", dayOfWeek=" + dayOfWeek +
                 '}';

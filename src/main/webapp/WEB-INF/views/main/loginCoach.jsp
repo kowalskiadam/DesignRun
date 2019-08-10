@@ -18,7 +18,7 @@
 
 <form:form method="post">
 
-    <input type="number" name="id"><br>
+    <input type="number" name="id" value="1"><br>
     <input type="submit" value="Login">
 
 </form:form>

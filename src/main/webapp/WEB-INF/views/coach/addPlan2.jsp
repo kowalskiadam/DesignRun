@@ -12,41 +12,51 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Add plan 1/x</h1>
+<h1>Add plan 2/x</h1>
 <form:form method="post" modelAttribute="planForm">
 
     <label for="mondaysTrainingsId">Number of weeks in plan:</label>
-    <form:input type="number" path="mondaysTrainings" id="mondaysTrainingsId"/>
+    <form:input type="number" value="1" path="mondaysTrainings" id="mondaysTrainingsId"/>
 
     <br>
 
     <label for="tuesdaysTrainingsId">Number of weeks in plan:</label>
-    <form:input type="number" path="tuesdaysTrainings" id="tuesdaysTrainingsId"/>
+    <form:input type="number" value="0" path="tuesdaysTrainings" id="tuesdaysTrainingsId"/>
 
     <br>
 
     <label for="wednesdaysTrainingsId">Number of weeks in plan:</label>
-    <form:input type="number" path="wednesdaysTrainings" id="wednesdaysTrainingsId"/>
+    <form:input type="number" value="2" path="wednesdaysTrainings" id="wednesdaysTrainingsId"/>
 
     <br>
 
     <label for="thursdaysTrainingsId">Number of weeks in plan:</label>
-    <form:input type="number" path="thursdaysTrainings" id="thursdaysTrainingsId"/>
+    <form:input type="number" value="1" path="thursdaysTrainings" id="thursdaysTrainingsId"/>
 
     <br>
 
     <label for="fridaysTrainingsId">Number of weeks in plan:</label>
-    <form:input type="number" path="fridaysTrainings" id="fridaysTrainingsId"/>
+    <form:input type="number" value="0" path="fridaysTrainings" id="fridaysTrainingsId"/>
 
     <br>
 
     <label for="saturdaysTrainingsId">Number of weeks in plan:</label>
-    <form:input type="number" path="saturdaysTrainings" id="saturdaysTrainingsId"/>
+    <form:input type="number" value="2" path="saturdaysTrainings" id="saturdaysTrainingsId"/>
 
     <br>
 
     <label for="sundaysTrainingsId">Number of weeks in plan:</label>
-    <form:input type="number" path="sundaysTrainings" id="sundaysTrainingsId"/>
+    <form:input type="number" value="1" path="sundaysTrainings" id="sundaysTrainingsId"/>
+
+    <br>
+
+    <label for="defaultTrainingTypeId">Default traning type:</label>
+    <form:select path="defaultTrainingType" items="${planForm.trainingTypes}" itemValue="id" itemLabel="name" id="defaultTrainingTypeId"/>
+
+    <br>
+
+    <label for="defaultDistance">Default distance:</label>
+    <form:input type="number" value="10" path="defaultDistance" id="defaultDistance"/>
 
     <br>
 

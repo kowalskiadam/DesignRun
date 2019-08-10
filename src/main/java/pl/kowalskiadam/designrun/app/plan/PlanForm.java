@@ -3,14 +3,11 @@ package pl.kowalskiadam.designrun.app.plan;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.context.WebApplicationContext;
 import pl.kowalskiadam.designrun.app.method.Method;
+import pl.kowalskiadam.designrun.app.method.TrainingType;
 import pl.kowalskiadam.designrun.app.user.Athlete;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +24,11 @@ public class PlanForm {
     private List<Athlete> coachAthletes = new ArrayList<>();
     private Method method;
     private List<LocalDate> mondays = new ArrayList<>();
+    private List<Method> coachMethods = new ArrayList<>();
+    private List<TrainingType> trainingTypes = new ArrayList<>();
+    private TrainingType defaultTrainingType;
+    private int defaultDistance;
+
 
     private int mondaysTrainings;
     private int tuesdaysTrainings;
@@ -37,6 +39,8 @@ public class PlanForm {
     private int sundaysTrainings;
 
     private List<Integer> trainingsInWeekdays = new ArrayList<>();
+
+    private List<TrainingForm> trainingFormsInWeekdays = new ArrayList<>();
 
 
     public PlanForm() {
@@ -92,6 +96,38 @@ public class PlanForm {
 
     public List<LocalDate> getMondays() {
         return mondays;
+    }
+
+    public List<Method> getCoachMethods() {
+        return coachMethods;
+    }
+
+    public void setCoachMethods(List<Method> coachMethods) {
+        this.coachMethods = coachMethods;
+    }
+
+    public TrainingType getDefaultTrainingType() {
+        return defaultTrainingType;
+    }
+
+    public void setDefaultTrainingType(TrainingType defaultTrainingType) {
+        this.defaultTrainingType = defaultTrainingType;
+    }
+
+    public int getDefaultDistance() {
+        return defaultDistance;
+    }
+
+    public void setDefaultDistance(int defaultDistance) {
+        this.defaultDistance = defaultDistance;
+    }
+
+    public List<TrainingType> getTrainingTypes() {
+        return trainingTypes;
+    }
+
+    public void setTrainingTypes(List<TrainingType> trainingTypes) {
+        this.trainingTypes = trainingTypes;
     }
 
     public void setMondays(List<LocalDate> mondays) {
@@ -160,6 +196,14 @@ public class PlanForm {
 
     public void setTrainingsInWeekdays(List<Integer> trainingsInWeekdays) {
         this.trainingsInWeekdays = trainingsInWeekdays;
+    }
+
+    public List<TrainingForm> getTrainingFormsInWeekdays() {
+        return trainingFormsInWeekdays;
+    }
+
+    public void setTrainingFormsInWeekdays(List<TrainingForm> trainingFormsInWeekdays) {
+        this.trainingFormsInWeekdays = trainingFormsInWeekdays;
     }
 
     public void populateTrainingsInWeekdays(){

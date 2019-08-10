@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.kowalskiadam.designrun.app.method.Method;
 import pl.kowalskiadam.designrun.app.method.MethodRepository;
+import pl.kowalskiadam.designrun.app.method.TrainingType;
+import pl.kowalskiadam.designrun.app.method.TrainingTypeRepository;
 import pl.kowalskiadam.designrun.app.plan.*;
 
 import java.time.DayOfWeek;
@@ -25,18 +27,26 @@ public class CoachController {
     private final WeekRepository weekRepository;
     private final DayRepository dayRepository;
     private final TrainingRepository trainingRepository;
+    private final TrainingTypeRepository trainingTypeRepository;
 
     @Autowired
     private PlanForm planForm;
+
+    @Autowired
+    private TrainingFormContainer trainingFormContainer;
+
 
     @ModelAttribute("planForm")
     public PlanForm getPlanForm(){
         return planForm;
     }
 
+    @ModelAttribute("traningFromContainer")
+    public TrainingFormContainer getTrainingFormContainer(){
+        return trainingFormContainer;
+    }
 
-
-    public CoachController(CoachRepository coachRepository, MethodRepository methodRepository, AthleteRepository athleteRepository, PlanRepository planRepository, WeekRepository weekRepository, DayRepository dayRepository, TrainingRepository trainingRepository){
+    public CoachController(CoachRepository coachRepository, MethodRepository methodRepository, AthleteRepository athleteRepository, PlanRepository planRepository, WeekRepository weekRepository, DayRepository dayRepository, TrainingRepository trainingRepository, TrainingTypeRepository trainingTypeRepository){
         this.coachRepository = coachRepository;
         this.methodRepository = methodRepository;
         this.athleteRepository = athleteRepository;
@@ -44,19 +54,21 @@ public class CoachController {
         this.weekRepository = weekRepository;
         this.dayRepository = dayRepository;
         this.trainingRepository = trainingRepository;
+        this.trainingTypeRepository = trainingTypeRepository;
     }
 
     @GetMapping("/addPlan1")
     public String addNewPlan1(@PathVariable Long id, Model model){
         planForm.setCoachAthletes(coachAthletes(id));
         planForm.setMondays(findMondays());
+        planForm.setCoachMethods(coachMethod(id));
         model.addAttribute("planFrom", planForm);
-        findMondays();
         return "coach/addPlan1";
     }
 
     @PostMapping("/addPlan1")
     public String addNewPlan1complete1(@ModelAttribute PlanForm planForm, @PathVariable Long id){
+        planForm.setTrainingTypes(trainingTypes(planForm.getMethod().getId()));
         return "redirect:/coach/"+id+"/addPlan2";
     }
 
@@ -67,25 +79,54 @@ public class CoachController {
 
     @PostMapping("/addPlan2")
     public String addNewPlan1complete2(@ModelAttribute PlanForm planForm, @PathVariable Long id){
-        System.out.println(planForm.getName());
-        System.out.println(planForm.getWeeksNumber());
+        planForm.populateTrainingsInWeekdays();
+        populateTraningForm(planForm.getTrainingFormsInWeekdays(), planForm.getTrainingsInWeekdays());
         Plan plan = new Plan();
         plan.setName(planForm.getName());
         plan.setWeeksNumber(planForm.getWeeksNumber());
         plan.setAthlete(planForm.getAthlete());
         plan.setCoach(thisCoach(id));
         plan.setStartDay(planForm.getStartDay());
+        plan.setMethod(planForm.getMethod());
         planRepository.save(plan);
         generatePlan(plan);
         planRepository.save(plan);
         generateDays(plan);
         planRepository.save(plan);
-        planForm.populateTrainingsInWeekdays();
-        generateTrainings(plan, planForm.getTrainingsInWeekdays());
+       // generateTrainings(plan, planForm.getTrainingsInWeekdays());
+        generateTrainingsNew(plan, planForm.getTrainingFormsInWeekdays());
         planRepository.save(plan);
-
         return "coach/dashboard";
+
     }
+
+/*    @GetMapping("/addPlan3")
+    public String addNewPlan3(Model model){
+        trainingFormContainer.setTrainingForms(planForm.getTrainingFormsInWeekdays());
+        model.addAttribute("trainingFormContainer", trainingFormContainer);
+        List<TrainingForm> list = trainingFormContainer.getTrainingForms();
+        for (TrainingForm trainingForm : list){
+            System.out.println(trainingForm.toString());
+        }
+        return "coach/addPlan3";
+    }
+
+    @PostMapping("/addPlan3")
+    public String addNewPlan1complete3(@ModelAttribute PlanForm planForm, @ModelAttribute TrainingFormContainer trainingFormContainer, @PathVariable Long id){
+
+// https://www.viralpatel.net/spring-mvc-multi-row-submit-java-list/
+
+        List<TrainingForm> list = trainingFormContainer.getTrainingForms();
+
+
+
+        for (TrainingForm trainingForm : list){
+            System.out.println(trainingForm.toString());
+        }
+
+
+
+    }*/
 
 
     @GetMapping("/dashboard")
@@ -247,9 +288,19 @@ public class CoachController {
         return athletes;
     }
 
+    private List<Method> coachMethod(Long id) {
+        List<Method> methods = methodRepository.getByOwnerIdAvailable(id);
+        return methods;
+    }
+
     private Coach thisCoach(Long id){
         Coach coach = coachRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         return coach;
+    }
+
+    private List<TrainingType> trainingTypes(Long id){
+        List <TrainingType> trainingTypes = trainingTypeRepository.getByMethodId(id);
+        return trainingTypes;
     }
 
     private List<LocalDate> findMondays(){
@@ -277,7 +328,6 @@ public class CoachController {
 
     public void generateDays(Plan plan){
         List<Week> weeks = weekRepository.findByPlanId(plan.getId());
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
         System.out.println(weeks.toString());
         for (int i = 0; i < weeks.size(); i++){
             for (int j = 0; j < 7 ;j++){
@@ -285,30 +335,59 @@ public class CoachController {
                 day.setDate(plan.getStartDay().plusDays(i*7 + j));
                 day.setDayOfWeek(j+1);
                 day.setWeek(weeks.get(i));
+                day.setPlan(planRepository.findById(plan.getId()).orElseThrow(IllegalArgumentException::new));
                 dayRepository.save(day);
-                System.out.println("========================================");
-                System.out.println(day.toString());
             }
         }
     }
 
-    public void generateTrainings(Plan plan, List<Integer> trainingsInWeekdays){
+    public void generateTrainingsNew(Plan plan, List<TrainingForm> trainingForms){
+        List<Day> planDays = dayRepository.getByPlanId(plan.getId());
+        for (int i = 0; i < trainingForms.size(); i++){
+            List<Week> weeks = weekRepository.findByPlanId(plan.getId());
+            for (int j = 0; j < weeks.size(); j++){
+                Training training = new Training();
+                training.setDescription("Write description here");
+                training.setDay(planDays.get(7*j+trainingForms.get(i).getDayOfWeek().getValue()-1));
+                training.setDistance(planForm.getDefaultDistance());
+                training.setTrainingType(planForm.getDefaultTrainingType());
+                training.generateName();
+                training.generateShortCut();
+                training.setPlan(plan);
+                training.setWeek(weeks.get(j));
+                trainingRepository.save(training);
+
+                }
+        }
+    }
+
+/*    public void generateTrainings(Plan plan, List<Integer> trainingsInWeekdays){
         List<Week> weeks = weekRepository.findByPlanId(plan.getId());
         for (int i = 0; i < weeks.size(); i++){
             List<Day> days = dayRepository.findByWeekId(weeks.get(i).getId());
             for (int j = 0; j < 7; j++){
                 for (int k = 0; k < trainingsInWeekdays.get(j); k++){
-                    Traning traning = new Traning();
-                    traning.setDescription("Write description here");
-                    traning.setDay(days.get(j));
-                    trainingRepository.save(traning);
+                    Training training = new Training();
+                    training.setDescription("Write description here");
+                    training.setDay(days.get(j));
+                    trainingRepository.save(training);
                 }
             }
-
         }
+    }*/
 
 
 
+
+    public void populateTraningForm(List<TrainingForm> trainingForms, List<Integer> trainingsInWeekdays){
+        int id = 1;
+        for (int j = 0; j < 7; j++){
+            for (int k = 0; k < trainingsInWeekdays.get(j); k++){
+                DayOfWeek dayOfWeek = DayOfWeek.of(j+1);
+                trainingForms.add(new TrainingForm(id, dayOfWeek, k+1 ));
+                id++;
+            }
+        }
     }
 
 }

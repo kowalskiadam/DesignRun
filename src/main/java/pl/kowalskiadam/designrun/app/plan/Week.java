@@ -19,6 +19,9 @@ public class Week {
     @OneToMany(mappedBy = "week")
     private List<Day> days = new ArrayList<>();
 
+    @OneToMany(mappedBy = "week")
+    private List<Training> trainings = new ArrayList<>();
+
     private Integer orderInPlan;
 
     public Long getId() {
@@ -39,6 +42,14 @@ public class Week {
 
     public void setDays(List<Day> days) {
         this.days = days;
+    }
+
+    public List<Training> getTrainings() {
+        return trainings;
+    }
+
+    public void setTrainings(List<Training> trainings) {
+        this.trainings = trainings;
     }
 
     public Integer getOrderInPlan() {

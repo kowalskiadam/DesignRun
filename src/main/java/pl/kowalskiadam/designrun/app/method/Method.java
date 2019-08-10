@@ -1,5 +1,6 @@
 package pl.kowalskiadam.designrun.app.method;
 
+import pl.kowalskiadam.designrun.app.plan.Plan;
 import pl.kowalskiadam.designrun.app.user.Coach;
 
 import javax.persistence.*;
@@ -25,6 +26,9 @@ public class Method {
 
     @OneToMany(mappedBy = "method")
     private List<TrainingType> trainingTypes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "method")
+    private List<Plan> plans = new ArrayList<>();
 
     public Long getId() {
         return id;

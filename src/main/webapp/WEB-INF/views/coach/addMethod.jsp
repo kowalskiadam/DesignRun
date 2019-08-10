@@ -17,7 +17,7 @@
 <form:form method="post" modelAttribute="method">
 
     <label for="nameId">Name:</label>
-    <form:input type="text" path="name" id="nameId"/>
+    <form:input type="text" path="name" id="nameId" value="testPlan"/>
 
     <br>
 

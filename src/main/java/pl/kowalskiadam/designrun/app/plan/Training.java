@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "tranings")
-public class Traning {
+public class Training {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +14,12 @@ public class Traning {
 
         @ManyToOne
         private Day day;
+
+        @ManyToOne
+        private Week week;
+
+        @ManyToOne
+        private Plan plan;
 
         @ManyToOne
         private TrainingType trainingType;
@@ -38,6 +44,22 @@ public class Traning {
 
     public void setDay(Day day) {
         this.day = day;
+    }
+
+    public Week getWeek() {
+        return week;
+    }
+
+    public void setWeek(Week week) {
+        this.week = week;
+    }
+
+    public Plan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this.plan = plan;
     }
 
     public TrainingType getTrainingType() {
@@ -88,9 +110,17 @@ public class Traning {
         this.athleteComment = athleteComment;
     }
 
+    public void generateName(){
+        this.name = this.trainingType.getName() + ": " + this.getDistance() + " km";
+    }
+
+    public void generateShortCut(){
+        this.shortCut = this.trainingType.getShortCut() + ": " + this.getDistance() + " km";
+    }
+
     @Override
     public String toString() {
-        return "Traning{" +
+        return "Training{" +
                 "id=" + id +
                 ", day=" + day +
                 ", trainingType=" + trainingType +

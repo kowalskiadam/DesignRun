@@ -32,7 +32,7 @@
 
 <h3>Operations</h3>
 
-<a href="addTraningType">Add new traning type</a><br/>
+<a href="addTraningType">Add new training type</a><br/>
 
 
     <h3>Training types list</h3>

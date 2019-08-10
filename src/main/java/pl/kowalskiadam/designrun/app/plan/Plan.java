@@ -1,5 +1,6 @@
 package pl.kowalskiadam.designrun.app.plan;
 
+import pl.kowalskiadam.designrun.app.method.Method;
 import pl.kowalskiadam.designrun.app.user.Athlete;
 import pl.kowalskiadam.designrun.app.user.Coach;
 
@@ -19,11 +20,20 @@ public class Plan {
     @OneToMany(mappedBy = "plan")
     private List<Week> weeks = new ArrayList<>();
 
+    @OneToMany(mappedBy = "plan")
+    private List<Day> days = new ArrayList<>();
+
+    @OneToMany(mappedBy = "plan")
+    private List<Training> trainings = new ArrayList<>();
+
     @ManyToOne
     private Coach coach;
 
     @ManyToOne
     private Athlete athlete;
+
+    @ManyToOne
+    private Method method;
 
     private String name;
 
@@ -43,6 +53,14 @@ public class Plan {
         this.weeks = weeks;
     }
 
+    public List<Day> getDays() {
+        return days;
+    }
+
+    public void setDays(List<Day> days) {
+        this.days = days;
+    }
+
     public Coach getCoach() {
         return coach;
     }
@@ -57,6 +75,14 @@ public class Plan {
 
     public void setAthlete(Athlete athlete) {
         this.athlete = athlete;
+    }
+
+    public Method getMethod() {
+        return method;
+    }
+
+    public void setMethod(Method method) {
+        this.method = method;
     }
 
     public String getName() {
