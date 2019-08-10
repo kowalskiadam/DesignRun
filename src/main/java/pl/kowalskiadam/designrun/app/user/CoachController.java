@@ -356,7 +356,6 @@ public class CoachController {
                 training.setPlan(plan);
                 training.setWeek(weeks.get(j));
                 trainingRepository.save(training);
-
                 }
         }
     }

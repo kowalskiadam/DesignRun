@@ -31,3 +31,47 @@ insert into training_types (name, description, shortCut, minDistance, maxDistanc
 insert into training_types (name, description, shortCut, minDistance, maxDistance, method_id, hide) values ("przebieżka", "short and easy","BS", 5, 15, 2, false);
 insert into training_types (name, description, shortCut, minDistance, maxDistance, method_id, hide) values ("wybieganie","very long", "Long", 15, 25, 2, false);
 insert into training_types (name, description, shortCut, minDistance, maxDistance, method_id, hide) values ("zabawa biegowa","run fast for fun" ,"Zabawa", 8, 16, 2, false);
+
+insert into plans (name, startDay, weeksNumber, athlete_id, coach_id, method_id) values ("test plan", 20190812, 3, 1, 1, 1);
+
+insert into weeks (orderInPlan, plan_id) values (1,1);
+insert into weeks (orderInPlan, plan_id) values (2,1);
+insert into weeks (orderInPlan, plan_id) values (3,1);
+
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190812, 1, 1, 1);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190813, 2, 1, 1);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190814, 3, 1, 1);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190815, 4, 1, 1);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190816, 5, 1, 1);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190817, 6, 1, 1);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190818, 7, 1, 2);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190819, 1, 1, 2);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190820, 2, 1, 2);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190821, 3, 1, 2);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190822, 4, 1, 2);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190823, 5, 1, 2);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190823, 6, 1, 2);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190824, 7, 1, 3);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190825, 1, 1, 3);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190826, 2, 1, 3);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190827, 3, 1, 3);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190828, 4, 1, 3);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190829, 5, 1, 3);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190830, 6, 1, 3);
+insert into days (date, dayOfWeek, plan_id, week_id) values (20190831, 7, 1, 3);
+
+insert into tranings (athleteComment, description, distance, name, shortCut, day_id, plan_id, trainingType_id, week_id ) values ("some description", "trening", 10, "Bieg spokojny", "BS 10", 1, 1, 1, 1);
+insert into tranings (athleteComment, description, distance, name, shortCut, day_id, plan_id, trainingType_id, week_id ) values ("some description", "trening", 12, "Akcent", "A 12", 2, 1, 2, 1);
+insert into tranings (athleteComment, description, distance, name, shortCut, day_id, plan_id, trainingType_id, week_id ) values ("some description", "trening", 10, "Bieg spokojny", "BS 10", 3, 1, 1, 1);
+insert into tranings (athleteComment, description, distance, name, shortCut, day_id, plan_id, trainingType_id, week_id ) values ("some description", "trening", 10, "Bieg spokojny", "BS 10", 5, 1, 1, 1);
+insert into tranings (athleteComment, description, distance, name, shortCut, day_id, plan_id, trainingType_id, week_id ) values ("some description", "trening", 13, "Bieg spokojny", "BS 13", 6, 1, 1, 1);
+insert into tranings (athleteComment, description, distance, name, shortCut, day_id, plan_id, trainingType_id, week_id ) values ("some description", "trening", 10, "Bieg spokojny", "BS 10", 1, 1, 1, 2);
+insert into tranings (athleteComment, description, distance, name, shortCut, day_id, plan_id, trainingType_id, week_id ) values ("some description", "trening", 9, "Bieg spokojny", "BS 10", 2, 1, 1, 2);
+insert into tranings (athleteComment, description, distance, name, shortCut, day_id, plan_id, trainingType_id, week_id ) values ("some description", "trening", 10, "Bieg spokojny", "BS 10", 2, 1, 1, 2);
+insert into tranings (athleteComment, description, distance, name, shortCut, day_id, plan_id, trainingType_id, week_id ) values ("some description", "trening", 10, "Bieg spokojny", "BS 10", 4, 1, 1, 2);
+insert into tranings (athleteComment, description, distance, name, shortCut, day_id, plan_id, trainingType_id, week_id ) values ("some description", "trening", 12, "Akcent", "BS 12", 7, 1, 2, 2);
+insert into tranings (athleteComment, description, distance, name, shortCut, day_id, plan_id, trainingType_id, week_id ) values ("some description", "trening", 10, "Bieg spokojny", "BS 10", 1, 1, 1, 3);
+insert into tranings (athleteComment, description, distance, name, shortCut, day_id, plan_id, trainingType_id, week_id ) values ("some description", "trening", 10, "Bieg spokojny", "BS 10", 1, 1, 1, 3);
+insert into tranings (athleteComment, description, distance, name, shortCut, day_id, plan_id, trainingType_id, week_id ) values ("some description", "trening", 5, "Bieg spokojny", "BS 10", 3, 1, 1, 3);
+insert into tranings (athleteComment, description, distance, name, shortCut, day_id, plan_id, trainingType_id, week_id ) values ("some description", "trening", 10, "Bieg spokojny", "BS 10", 5, 1, 1, 3);
+insert into tranings (athleteComment, description, distance, name, shortCut, day_id, plan_id, trainingType_id, week_id ) values ("some description", "trening", 14, "Akcent", "Akcent 14", 7, 1, 2, 3);
