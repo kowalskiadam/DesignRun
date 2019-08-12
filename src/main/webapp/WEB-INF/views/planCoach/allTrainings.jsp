@@ -2,8 +2,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: Adamk
-  Date: 04.08.2019
-  Time: 15:01
+  Date: 10.08.2019
+  Time: 11:36
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -12,10 +12,6 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Manage plans</h1>
-<a href="addPlan1">Add plan</a><br/>
-
-<h3>Plan list</h3>
 <table>
     <tr>
         <th>Name</th>
@@ -23,17 +19,19 @@
         <th>Number of weeks</th>
         <th>Athlete</th>
         <th>Method</th>
+        <th>Name</th>
+        <th>Name</th>
 
     </tr>
-    <c:forEach var="plan" items="${coachPlans}">
+    <c:forEach var="training" items="${trainings}">
         <tr>
-            <td>${plan.name}</td>
-            <td>${plan.startDay}</td>
-            <td>${plan.weeksNumber}</td>
-            <td>${plan.athlete.login}</td>
-            <td>${plan.method.name}</td>
-            <td><a href="/plan/${plan.id}/coach/allTrainings/">Details</a>
-            </td>
+            <td>${training.day.date}</td>
+            <td>${training.orderInDay}</td>
+            <td>${training.trainingType.name}</td>
+            <td>${training.name}</td>
+            <td>${training.distance}</td>
+            <td>${training.description}</td>
+            <td>${training.athleteComment}</td>
         </tr>
 
     </c:forEach>

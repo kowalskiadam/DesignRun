@@ -24,6 +24,8 @@ public class Training {
         @ManyToOne
         private TrainingType trainingType;
 
+        private int orderInDay;
+
         private int distance;
 
         private String name;
@@ -34,8 +36,18 @@ public class Training {
 
         private String athleteComment;
 
-    public Long getId() {
+
+
+        public Long getId() {
         return id;
+    }
+
+    public int getOrderInDay() {
+        return orderInDay;
+    }
+
+    public void setOrderInDay(int orderInDay) {
+        this.orderInDay = orderInDay;
     }
 
     public Day getDay() {

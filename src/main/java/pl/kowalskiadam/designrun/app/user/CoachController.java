@@ -138,6 +138,8 @@ public class CoachController {
 
     @GetMapping("/plansList")
     public String showPlansList(Model model, @PathVariable Long id){
+        List <Plan> coachPlans = planRepository.getByCoachId(id);
+        model.addAttribute("coachPlans", coachPlans);
         List<Method> coachMethods = methodRepository.getByOwnerIdAvailable(id);
         model.addAttribute("coachMethods", coachMethods);
         return "coach/plansList";
@@ -355,6 +357,7 @@ public class CoachController {
                 training.generateShortCut();
                 training.setPlan(plan);
                 training.setWeek(weeks.get(j));
+                training.setOrderInDay(trainingForms.get(i).getOrder());
                 trainingRepository.save(training);
                 }
         }
