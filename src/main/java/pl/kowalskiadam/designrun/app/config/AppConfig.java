@@ -83,4 +83,8 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     public TrainingTypeConverter getTrainingTypeConverter() {
         return new TrainingTypeConverter();
     }
+
+
+
+
 }

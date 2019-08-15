@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.kowalskiadam.designrun.app.user.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -20,8 +21,13 @@ public class MainPageController {
         this.athleteRepository = athleteRepository;
     }
 
-    @GetMapping()
+/*    @GetMapping()
     public String showStartPage(){
+        return "main/start";
+    }*/
+
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public String showHomePage(HttpSession session) {
         return "main/main";
     }
 

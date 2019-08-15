@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "athletes")
 public class Athlete extends User {
 
     @ManyToMany(mappedBy = "athletes", cascade = CascadeType.PERSIST)

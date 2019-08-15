@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @Entity
-@Table(name = "coaches")
 public class Coach extends User {
 
     @Size(max = 400)

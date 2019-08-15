@@ -1,29 +1,28 @@
-insert into coaches (login) values ("chudy");
-insert into coaches (login) values ("daniels");
-insert into coaches (login) values ("adam");
-insert into coaches (login) values ("jaro");
-insert into coaches (login) values ("maciekj");
+insert into users (USER_TYPE, login, password, aboutMeShort, firstName, lastName) values ("Coach", "coach1", "$2a$10$vr7uHy7yZvFOMcKUlagrM.CwiRSPaEZr9ZrcLvQSieogXyMz1kjKe", "", "", "")
+insert into users (USER_TYPE, login, password, aboutMeShort, firstName, lastName) values ("Coach", "coach2", "$2a$10$vr7uHy7yZvFOMcKUlagrM.CwiRSPaEZr9ZrcLvQSieogXyMz1kjKe", "", "", "")
+insert into users (USER_TYPE, login, password, aboutMeShort, firstName, lastName) values ("Coach", "coach3", "$2a$10$vr7uHy7yZvFOMcKUlagrM.CwiRSPaEZr9ZrcLvQSieogXyMz1kjKe", "", "", "")
+insert into users (USER_TYPE, login, password, aboutMeShort, firstName, lastName) values ("Coach", "coach4", "$2a$10$vr7uHy7yZvFOMcKUlagrM.CwiRSPaEZr9ZrcLvQSieogXyMz1kjKe", "", "", "")
+insert into users (USER_TYPE, login, password, aboutMeShort, firstName, lastName) values ("Coach", "coach5", "$2a$10$vr7uHy7yZvFOMcKUlagrM.CwiRSPaEZr9ZrcLvQSieogXyMz1kjKe", "", "", "")
+insert into users (USER_TYPE, login, password, aboutMeShort, firstName, lastName) values ("Athlete", "athlete1", "$2a$10$vr7uHy7yZvFOMcKUlagrM.CwiRSPaEZr9ZrcLvQSieogXyMz1kjKe", "", "", "")
+insert into users (USER_TYPE, login, password, aboutMeShort, firstName, lastName) values ("Athlete", "athlete2", "$2a$10$vr7uHy7yZvFOMcKUlagrM.CwiRSPaEZr9ZrcLvQSieogXyMz1kjKe", "", "", "")
+insert into users (USER_TYPE, login, password, aboutMeShort, firstName, lastName) values ("Athlete", "athlete3", "$2a$10$vr7uHy7yZvFOMcKUlagrM.CwiRSPaEZr9ZrcLvQSieogXyMz1kjKe", "", "", "")
+insert into users (USER_TYPE, login, password, aboutMeShort, firstName, lastName) values ("Athlete", "athlete4", "$2a$10$vr7uHy7yZvFOMcKUlagrM.CwiRSPaEZr9ZrcLvQSieogXyMz1kjKe", "", "", "")
+insert into users (USER_TYPE, login, password, aboutMeShort, firstName, lastName) values ("Athlete", "athlete5", "$2a$10$vr7uHy7yZvFOMcKUlagrM.CwiRSPaEZr9ZrcLvQSieogXyMz1kjKe", "", "", "")
 
 insert into methods (description, name, hide, owner_id) values ("klasyczna metoda Danielsa", "Metoda Danielsa", false, 1);
 insert into methods (description, name, hide, owner_id) values ("własne metoda testowa", "Bieganie 7.0", false,1);
 insert into methods (description, name, hide, owner_id) values ("ukryta metoda testowa", "Bieganie 7.0", true, 1);
 insert into methods (description, name, hide, owner_id) values ("własne metoda testowa innego trenera", "Bieganie 7.1", false, 2);
 
-insert into athletes (login, firstName, lastName) values ("zebra", "karol", "chodkiewicz");
-insert into athletes (login, firstName, lastName) values ("slon", "anna", "jagielonka");
-insert into athletes (login, firstName, lastName) values ("zubr", "maksymilian", "wielki");
-insert into athletes (login, firstName, lastName) values ("tygrys", "tytus", "wspanialy");
-insert into athletes (login, firstName, lastName) values ("drozd", "ferdynand", "luksemburski");
+insert into coaches_athletes (coaches_id, athletes_id) values (1, 6);
+insert into coaches_athletes (coaches_id, athletes_id) values (1, 7);
+insert into coaches_athletes (coaches_id, athletes_id) values (1, 8);
+insert into coaches_athletes (coaches_id, athletes_id) values (2, 9);
+insert into coaches_athletes (coaches_id, athletes_id) values (2, 6);
 
-insert into coaches_athletes (coaches_id, athletes_id) values (1, 1);
-insert into coaches_athletes (coaches_id, athletes_id) values (1, 2);
-insert into coaches_athletes (coaches_id, athletes_id) values (1, 3);
-insert into coaches_athletes (coaches_id, athletes_id) values (2, 4);
-insert into coaches_athletes (coaches_id, athletes_id) values (2, 1);
-
-insert into potential_coaches_athletes (potentialCoaches_id, potentialAthletes_id) values (1, 4);
-insert into potential_coaches_athletes (potentialCoaches_id, potentialAthletes_id) values (2, 5);
-insert into potential_coaches_athletes (potentialCoaches_id, potentialAthletes_id) values (1, 5);
+insert into potential_coaches_athletes (potentialCoaches_id, potentialAthletes_id) values (1, 9);
+insert into potential_coaches_athletes (potentialCoaches_id, potentialAthletes_id) values (2, 10);
+insert into potential_coaches_athletes (potentialCoaches_id, potentialAthletes_id) values (1, 10);
 
 insert into training_types (name, description, shortCut, minDistance, maxDistance, method_id, hide) values ("bieg spokojny", "easy run", "BS", 5, 15, 1, false);
 insert into training_types (name, description, shortCut, minDistance, maxDistance, method_id, hide) values ("wybieganie", "the long one", "Long", 15, 32, 1, false);
@@ -32,9 +31,9 @@ insert into training_types (name, description, shortCut, minDistance, maxDistanc
 insert into training_types (name, description, shortCut, minDistance, maxDistance, method_id, hide) values ("wybieganie","very long", "Long", 15, 25, 2, false);
 insert into training_types (name, description, shortCut, minDistance, maxDistance, method_id, hide) values ("zabawa biegowa","run fast for fun" ,"Zabawa", 8, 16, 2, false);
 
-insert into plans (name, startDay, weeksNumber, athlete_id, coach_id, method_id) values ("test plan", 20190812, 3, 1, 1, 1);
-insert into plans (name, startDay, weeksNumber, athlete_id, coach_id, method_id) values ("test plan2", 20190819, 2, 2, 1, 2);
-insert into plans (name, startDay, weeksNumber, athlete_id, coach_id, method_id) values ("test plan nie dla id1", 20190812, 3, 4, 2, 1);
+insert into plans (name, startDay, weeksNumber, athlete_id, coach_id, method_id) values ("test plan", 20190812, 3, 6, 1, 1);
+insert into plans (name, startDay, weeksNumber, athlete_id, coach_id, method_id) values ("test plan2", 20190819, 2, 7, 1, 2);
+insert into plans (name, startDay, weeksNumber, athlete_id, coach_id, method_id) values ("test plan nie dla id1", 20190812, 3, 9, 2, 1);
 
 insert into weeks (orderInPlan, plan_id) values (1,1);
 insert into weeks (orderInPlan, plan_id) values (2,1);

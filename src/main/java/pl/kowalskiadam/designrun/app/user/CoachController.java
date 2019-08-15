@@ -1,6 +1,8 @@
 package pl.kowalskiadam.designrun.app.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +61,7 @@ public class CoachController {
 
     @GetMapping("/addPlan1")
     public String addNewPlan1(@PathVariable Long id, Model model){
+
         planForm.setCoachAthletes(coachAthletes(id));
         planForm.setMondays(findMondays());
         planForm.setCoachMethods(coachMethod(id));
@@ -131,9 +134,19 @@ public class CoachController {
 
     @GetMapping("/dashboard")
     public String showDashboard(Model model, @PathVariable Long id){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Coach coach = coachRepository.findById(id).orElseThrow(IllegalArgumentException::new);
-        model.addAttribute("coach", coach);
-        return "coach/dashboard";
+        if (principal instanceof UserDetails){
+            String login = ((UserDetails) principal).getUsername();
+            String findLogin  = coach.getLogin();
+            if (login.equals(findLogin)){
+                model.addAttribute("coach", coach);
+                return "coach/dashboard";
+            } else {
+                return ("main/login");
+            }
+        }
+        else return ("main/login");
     }
 
     @GetMapping("/plansList")
