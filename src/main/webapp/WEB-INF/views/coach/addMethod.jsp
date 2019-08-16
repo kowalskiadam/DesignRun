@@ -18,11 +18,13 @@
 
     <label for="nameId">Name:</label>
     <form:input type="text" path="name" id="nameId" value="testPlan"/>
+    <form:errors path="name" />
 
     <br>
 
     <label for="descriptionId">Description:</label>
-    <form:textarea type="text" rows="10" cols="50" path="description" id="descriptionId"/>
+    <form:textarea type="text" rows="10" cols="50" path="shortDescription" id="descriptionId"/>
+    <form:errors path="shortDescription" />
 
     <br>
 

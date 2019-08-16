@@ -34,7 +34,7 @@
     <c:forEach var="method" items="${coachHideMethods}">
         <tr>
             <td>${method.name}</td>
-            <td>${method.description}</td>
+            <td>${method.shortDescription}</td>
             <td>
                 <a href="#" onclick="confirmUnHide(${method.id}, '${method.name}')">Unhide</a>
             </td>

@@ -1,9 +1,12 @@
 package pl.kowalskiadam.designrun.app.method;
 
+import org.hibernate.validator.constraints.NotBlank;
 import pl.kowalskiadam.designrun.app.plan.Plan;
 import pl.kowalskiadam.designrun.app.user.Coach;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +18,17 @@ public class Method {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Size(min = 2, max = 40)
     private String name;
 
-    private String description;
+    @Size(min = 0, max = 1000)
+    private String shortDescription;
 
+    @NotNull
     private boolean hide;
 
+    @NotNull
     @ManyToOne
     private Coach owner;
 
@@ -42,12 +50,12 @@ public class Method {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getShortDescription() {
+        return shortDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setShortDescription(String description) {
+        this.shortDescription = description;
     }
 
     public boolean isHide() {
@@ -79,7 +87,7 @@ public class Method {
         return "Method{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
+                ", description='" + shortDescription + '\'' +
                 ", hide=" + hide +
                 ", owner=" + owner +
                 '}';

@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.kowalskiadam.designrun.app.method.Method;
 import pl.kowalskiadam.designrun.app.method.MethodRepository;
@@ -12,13 +13,15 @@ import pl.kowalskiadam.designrun.app.method.TrainingType;
 import pl.kowalskiadam.designrun.app.method.TrainingTypeRepository;
 import pl.kowalskiadam.designrun.app.plan.*;
 
+import javax.validation.Valid;
+import javax.validation.Validator;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/coach/{id}")
+@RequestMapping("/coach/")
 @SessionAttributes("planForm")
 public class CoachController {
 
@@ -30,6 +33,7 @@ public class CoachController {
     private final DayRepository dayRepository;
     private final TrainingRepository trainingRepository;
     private final TrainingTypeRepository trainingTypeRepository;
+ //   private final Validator validator;
 
     @Autowired
     private PlanForm planForm;
@@ -48,7 +52,9 @@ public class CoachController {
         return trainingFormContainer;
     }
 
-    public CoachController(CoachRepository coachRepository, MethodRepository methodRepository, AthleteRepository athleteRepository, PlanRepository planRepository, WeekRepository weekRepository, DayRepository dayRepository, TrainingRepository trainingRepository, TrainingTypeRepository trainingTypeRepository){
+    public CoachController(CoachRepository coachRepository, MethodRepository methodRepository, AthleteRepository athleteRepository,
+                           PlanRepository planRepository, WeekRepository weekRepository, DayRepository dayRepository,
+                           TrainingRepository trainingRepository, TrainingTypeRepository trainingTypeRepository, Validator validator){
         this.coachRepository = coachRepository;
         this.methodRepository = methodRepository;
         this.athleteRepository = athleteRepository;
@@ -57,31 +63,73 @@ public class CoachController {
         this.dayRepository = dayRepository;
         this.trainingRepository = trainingRepository;
         this.trainingTypeRepository = trainingTypeRepository;
+     //   this.validator = validator;
+    }
+
+    @GetMapping("/dashboard")
+    public String showDashboard(Model model){
+
+        Coach coach = checkCoachSecurity();
+        if (coach == null){
+            return "redirect:/login";
+        } else {
+            model.addAttribute("coach", coach);
+            return "coach/dashboard";
+        }
+    }
+
+    @GetMapping("/plansList")
+    public String showPlansList(Model model){
+        Coach coach = checkCoachSecurity();
+        if (coach == null){
+            return "redirect:/login";
+        } else {
+            Long id = coach.getId();
+            List <Plan> coachPlans = planRepository.getByCoachId(id);
+            model.addAttribute("coachPlans", coachPlans);
+            List<Method> coachMethods = methodRepository.getByOwnerIdAvailable(id);
+            model.addAttribute("coachMethods", coachMethods);
+            return "coach/plansList";
+        }
     }
 
     @GetMapping("/addPlan1")
-    public String addNewPlan1(@PathVariable Long id, Model model){
+    public String addNewPlan1(Model model){
 
-        planForm.setCoachAthletes(coachAthletes(id));
-        planForm.setMondays(findMondays());
-        planForm.setCoachMethods(coachMethod(id));
-        model.addAttribute("planFrom", planForm);
-        return "coach/addPlan1";
+        Coach coach = checkCoachSecurity();
+        if (coach == null){
+            return "redirect:/login";
+        } else {
+            Long id = coach.getId();
+            planForm.setCoachAthletes(coachAthletes(id));
+            planForm.setMondays(findMondays());
+            planForm.setCoachMethods(coachMethod(id));
+            model.addAttribute("planFrom", planForm);
+            return "coach/addPlan1";
+        }
     }
 
     @PostMapping("/addPlan1")
-    public String addNewPlan1complete1(@ModelAttribute PlanForm planForm, @PathVariable Long id){
+    public String addNewPlan1complete1(@ModelAttribute PlanForm planForm){
         planForm.setTrainingTypes(trainingTypes(planForm.getMethod().getId()));
-        return "redirect:/coach/"+id+"/addPlan2";
+        return "redirect:/coach/addPlan2";
     }
 
     @GetMapping("/addPlan2")
     public String addNewPlan2(Model model){
-        return "coach/addPlan2";
+
+        Coach coach = checkCoachSecurity();
+        if (coach == null){
+            return "redirect:/login";
+        } else {
+            return "coach/addPlan2";
+        }
     }
 
     @PostMapping("/addPlan2")
-    public String addNewPlan1complete2(@ModelAttribute PlanForm planForm, @PathVariable Long id){
+    public String addNewPlan1complete2(@ModelAttribute PlanForm planForm){
+        Coach coach = checkCoachSecurity();
+        Long id = coach.getId();
         planForm.populateTrainingsInWeekdays();
         populateTraningForm(planForm.getTrainingFormsInWeekdays(), planForm.getTrainingsInWeekdays());
         Plan plan = new Plan();
@@ -96,86 +144,42 @@ public class CoachController {
         planRepository.save(plan);
         generateDays(plan);
         planRepository.save(plan);
-       // generateTrainings(plan, planForm.getTrainingsInWeekdays());
         generateTrainingsNew(plan, planForm.getTrainingFormsInWeekdays());
         planRepository.save(plan);
-        return "coach/dashboard";
-
+        return "redirect:/coach/dashboard";
     }
-
-/*    @GetMapping("/addPlan3")
-    public String addNewPlan3(Model model){
-        trainingFormContainer.setTrainingForms(planForm.getTrainingFormsInWeekdays());
-        model.addAttribute("trainingFormContainer", trainingFormContainer);
-        List<TrainingForm> list = trainingFormContainer.getTrainingForms();
-        for (TrainingForm trainingForm : list){
-            System.out.println(trainingForm.toString());
-        }
-        return "coach/addPlan3";
-    }
-
-    @PostMapping("/addPlan3")
-    public String addNewPlan1complete3(@ModelAttribute PlanForm planForm, @ModelAttribute TrainingFormContainer trainingFormContainer, @PathVariable Long id){
-
-// https://www.viralpatel.net/spring-mvc-multi-row-submit-java-list/
-
-        List<TrainingForm> list = trainingFormContainer.getTrainingForms();
-
-
-
-        for (TrainingForm trainingForm : list){
-            System.out.println(trainingForm.toString());
-        }
-
-
-
-    }*/
-
-
-    @GetMapping("/dashboard")
-    public String showDashboard(Model model, @PathVariable Long id){
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Coach coach = coachRepository.findById(id).orElseThrow(IllegalArgumentException::new);
-        if (principal instanceof UserDetails){
-            String login = ((UserDetails) principal).getUsername();
-            String findLogin  = coach.getLogin();
-            if (login.equals(findLogin)){
-                model.addAttribute("coach", coach);
-                return "coach/dashboard";
-            } else {
-                return ("main/login");
-            }
-        }
-        else return ("main/login");
-    }
-
-    @GetMapping("/plansList")
-    public String showPlansList(Model model, @PathVariable Long id){
-        List <Plan> coachPlans = planRepository.getByCoachId(id);
-        model.addAttribute("coachPlans", coachPlans);
-        List<Method> coachMethods = methodRepository.getByOwnerIdAvailable(id);
-        model.addAttribute("coachMethods", coachMethods);
-        return "coach/plansList";
-    }
-
-
-
 
     @GetMapping("/methodsList")
-    public String showMethodList(Model model, @PathVariable Long id){
-        List<Method> coachMethods = methodRepository.getByOwnerIdAvailable(id);
-        model.addAttribute("coachMethods", coachMethods);
-        return "coach/methodsList";
+    public String showMethodList(Model model){
+        Coach coach = checkCoachSecurity();
+        if (coach == null){
+            return "redirect:/login";
+        } else {
+            Long id = coach.getId();
+            List<Method> coachMethods = methodRepository.getByOwnerIdAvailable(id);
+            model.addAttribute("coachMethods", coachMethods);
+            return "coach/methodsList";
+        }
     }
 
     @GetMapping("/addMethod")
     public String addNewMethod(Model model){
-        model.addAttribute("method", new Method());
-        return "coach/addMethod";
+        Coach coach = checkCoachSecurity();
+        if (coach == null){
+            return "redirect:/login";
+        } else {
+            model.addAttribute("method", new Method());
+            return "coach/addMethod";
+        }
     }
 
     @PostMapping("/addMethod")
-    public String createNewMethod(@ModelAttribute Method method, @PathVariable Long id){
+    public String createNewMethod(@ModelAttribute @Valid Method method, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return "coach/addMethod";
+        }
+        Coach coach = checkCoachSecurity();
+        Long id = coach.getId();
         method.setOwner(coachRepository.findById(id).orElseThrow(IllegalArgumentException::new));
         method.setHide(false);
         methodRepository.save(method);
@@ -184,31 +188,50 @@ public class CoachController {
 
     @GetMapping("/advanced")
     public String showAdvanced(){
-        return "coach/advanced";
+        Coach coach = checkCoachSecurity();
+        if (coach == null){
+            return "redirect:/login";
+        } else {
+            return "coach/advanced";
+        }
     }
 
     @GetMapping("/hideMethodsList")
-    public String showHideMethodList(Model model, @PathVariable Long id){
-        List<Method> coachHideMethods = methodRepository.getByOwnerIdHide(id);
-        model.addAttribute("coachHideMethods", coachHideMethods);
-        return "coach/hideMethodsList";
+    public String showHideMethodList(Model model){
+        Coach coach = checkCoachSecurity();
+        if (coach == null){
+            return "redirect:/login";
+        } else {
+            Long id = coach.getId();
+            List<Method> coachHideMethods = methodRepository.getByOwnerIdHide(id);
+            model.addAttribute("coachHideMethods", coachHideMethods);
+            return "coach/hideMethodsList";
+        }
     }
 
     @GetMapping("/athleteList")
-    public String showAthletes(Model model, @PathVariable Long id){
-        List<Athlete> athletes = athleteRepository.getAthleteByCoaches(id);
-        List<Athlete> potentialAthletes = athleteRepository.getPotentialAthleteByCoaches(id);
-        model.addAttribute("athletes", athletes);
-        model.addAttribute("potentialAthletes", potentialAthletes);
-        model.addAttribute("coachId", id);
-        return "coach/athleteList";
+    public String showAthletes(Model model){
+        Coach coach = checkCoachSecurity();
+        if (coach == null){
+            return "redirect:/login";
+        } else {
+            Long id = coach.getId();
+            List<Athlete> athletes = athleteRepository.getAthleteByCoaches(id);
+            List<Athlete> potentialAthletes = athleteRepository.getPotentialAthleteByCoaches(id);
+            model.addAttribute("athletes", athletes);
+            model.addAttribute("potentialAthletes", potentialAthletes);
+            model.addAttribute("coachId", id);
+            return "coach/athleteList";
+        }
     }
 
     @PostMapping("/athleteList")
-    public String findAthete(@RequestParam  String loginToFind, @PathVariable Long id, Model model){
+    public String findAthete(@RequestParam  String loginToFind, Model model){
+
+        Coach coach = checkCoachSecurity();
+        Long id = coach.getId();
 
         boolean athleteFound = false;
-
         String message = "";
 
         try{
@@ -240,54 +263,66 @@ public class CoachController {
             }
 
             if (!athleteOnList & !athletOnPotentiaList){
-                Coach coach = coachRepository.findById(id).orElseThrow(IllegalArgumentException::new);
                 potentialAthletes.add(athlete);
                 coach.setPotentialAthletes(potentialAthletes);
                 coachRepository.save(coach);
                 message = "Request was sended. Wait patiently for he / she response";
             }
-
-
-/*            System.out.println("on list " + athleteOnList);
-            System.out.println("on potential list " + athletOnPotentiaList);*/
-
-
         }catch (Exception e){
             message = "Login is wrong or athlete blocks new invitations";
         }
 
-        System.out.println("found " + athleteFound);
-
         model.addAttribute("message", message);
-
 
         return "coach/addAthleteResult";
 
     }
 
-        @GetMapping("/remove/{athleteId}")
-    public String removeAthlete(@PathVariable Long id, @PathVariable Long athleteId){
 
-        List<Athlete> athletes = athleteRepository.getAthleteByCoaches(id);
-        removeAthlete(athletes, athleteId, id);
-        Coach coach = coachRepository.findById(id).orElseThrow(IllegalArgumentException::new);
-        coach.setAthletes(athletes);
-        coachRepository.save(coach);
-        return "redirect:/coach/"+id+"/athleteList";
+    @GetMapping("/remove/{athleteId}")
+    public String removeAthlete(@PathVariable Long athleteId){
+        Coach coach = checkCoachSecurity();
+        if (coach == null){
+            return "redirect:/login";
+        } else {
+            Long id = coach.getId();
+            List<Athlete> athletes = athleteRepository.getAthleteByCoaches(id);
+            removeAthlete(athletes, athleteId, id);
+            coach.setAthletes(athletes);
+            coachRepository.save(coach);
+            return "redirect:/coach/athleteList";
+        }
     }
 
     @GetMapping("/cancelInvitation/{athleteId}")
-    public String cancelInvitation(@PathVariable Long id, @PathVariable Long athleteId){
+    public String cancelInvitation(@PathVariable Long athleteId){
 
-        List<Athlete> potentialAthletes = athleteRepository.getPotentialAthleteByCoaches(id);
-        removeAthlete(potentialAthletes, athleteId, id);
-        Coach coach = coachRepository.findById(id).orElseThrow(IllegalArgumentException::new);
-        coach.setPotentialAthletes(potentialAthletes);
-        coachRepository.save(coach);
-        return "redirect:/coach/"+id+"/athleteList";
+        Coach coach = checkCoachSecurity();
+        if (coach == null){
+            return "redirect:/login";
+        } else {
+            Long id = coach.getId();
+            List<Athlete> potentialAthletes = athleteRepository.getPotentialAthleteByCoaches(id);
+            removeAthlete(potentialAthletes, athleteId, id);
+            coach.setPotentialAthletes(potentialAthletes);
+            coachRepository.save(coach);
+            return "redirect:/coach/athleteList";
+        }
     }
 
-     void removeAthlete(List<Athlete> athletes, Long athleteId, Long coachId){
+
+
+    private Coach checkCoachSecurity(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails){
+            String login = ((UserDetails) principal).getUsername();
+            Coach coach = coachRepository.findByLogin(login);
+            return coach;
+        }
+        else return null;
+    }
+
+    void removeAthlete(List<Athlete> athletes, Long athleteId, Long coachId){
         int position = -1;
         for (int i = 0; i < athletes.size(); i++){
             if (athletes.get(i).getId().equals(athleteId)){
@@ -295,7 +330,7 @@ public class CoachController {
             }
         }
         athletes.remove(position);
-       // Coach coach = coachRepository.findById(coachId).orElseThrow(IllegalArgumentException::new);
+        // Coach coach = coachRepository.findById(coachId).orElseThrow(IllegalArgumentException::new);
 
     }
     private  List<Athlete> coachAthletes(Long id) {
@@ -372,7 +407,7 @@ public class CoachController {
                 training.setWeek(weeks.get(j));
                 training.setOrderInDay(trainingForms.get(i).getOrder());
                 trainingRepository.save(training);
-                }
+            }
         }
     }
 
@@ -404,5 +439,7 @@ public class CoachController {
             }
         }
     }
+
+
 
 }

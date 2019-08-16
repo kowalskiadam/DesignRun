@@ -22,7 +22,7 @@
     <br>
 
     <label for="descriptionId">Name:</label>
-    <form:textarea type="text" rows="10" cols="50" path="description" id="descriptionId"/>
+    <form:textarea type="text" rows="10" cols="50" path="shortDescription" id="descriptionId"/>
 
     <br>
 

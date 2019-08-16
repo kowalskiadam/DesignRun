@@ -20,6 +20,7 @@ public class Coach extends User {
     private List<Method> methods = new ArrayList<>();
 
     @ManyToMany
+    @JoinTable(name = "coaches_athletes")
     private List<Athlete> athletes = new ArrayList<>();
 
     @ManyToMany

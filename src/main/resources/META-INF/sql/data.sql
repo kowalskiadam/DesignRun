@@ -9,10 +9,10 @@ insert into users (USER_TYPE, login, password, aboutMeShort, firstName, lastName
 insert into users (USER_TYPE, login, password, aboutMeShort, firstName, lastName) values ("Athlete", "athlete4", "$2a$10$vr7uHy7yZvFOMcKUlagrM.CwiRSPaEZr9ZrcLvQSieogXyMz1kjKe", "", "", "")
 insert into users (USER_TYPE, login, password, aboutMeShort, firstName, lastName) values ("Athlete", "athlete5", "$2a$10$vr7uHy7yZvFOMcKUlagrM.CwiRSPaEZr9ZrcLvQSieogXyMz1kjKe", "", "", "")
 
-insert into methods (description, name, hide, owner_id) values ("klasyczna metoda Danielsa", "Metoda Danielsa", false, 1);
-insert into methods (description, name, hide, owner_id) values ("własne metoda testowa", "Bieganie 7.0", false,1);
-insert into methods (description, name, hide, owner_id) values ("ukryta metoda testowa", "Bieganie 7.0", true, 1);
-insert into methods (description, name, hide, owner_id) values ("własne metoda testowa innego trenera", "Bieganie 7.1", false, 2);
+insert into methods (shortDescription, name, hide, owner_id) values ("klasyczna metoda Danielsa", "Metoda Danielsa", false, 1);
+insert into methods (shortDescription, name, hide, owner_id) values ("własne metoda testowa", "Bieganie 7.0", false,1);
+insert into methods (shortDescription, name, hide, owner_id) values ("ukryta metoda testowa", "Bieganie 7.0", true, 1);
+insert into methods (shortDescription, name, hide, owner_id) values ("własne metoda testowa innego trenera", "Bieganie 7.1", false, 2);
 
 insert into coaches_athletes (coaches_id, athletes_id) values (1, 6);
 insert into coaches_athletes (coaches_id, athletes_id) values (1, 7);

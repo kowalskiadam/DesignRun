@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface CoachRepository extends JpaRepository <Coach, Long> {
 
+    Coach findByLogin(String login);
+
     @Query("select coach from Coach coach inner join fetch coach.athletes athletes where athletes.id=  ?1")
     List<Coach> getCoachesByAthlete(Long coachId);
 

@@ -17,20 +17,24 @@ public class LoginController {
 
     //ok
     @RequestMapping("")
-    public String loginPage() {
+    public String loginPage1() {
         return "main/login";
     }
 
+    @RequestMapping("/login")
+    public String loginPage2() {
+        return "main/login";
+    }
 
+    //ok
     @RequestMapping("/login-success")
     public String loginSuccess(Model model) {
         UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         validatePrinciple(authentication.getPrincipal());
         User loggedInUser = ((UserPrincipal) authentication.getPrincipal()).getUserDetails();
         model.addAttribute("loggedInUser", loggedInUser);
-        System.out.println(loggedInUser.getClass().toString());
         if (loggedInUser instanceof Coach){
-            return "coach/dashboard";
+            return "redirect: coach/dashboard";
         } else if (loggedInUser instanceof Athlete){
             return "redirect: athlete/dashboard";
         } else {
