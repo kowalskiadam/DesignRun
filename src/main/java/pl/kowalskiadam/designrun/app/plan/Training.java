@@ -3,6 +3,7 @@ package pl.kowalskiadam.designrun.app.plan;
 import pl.kowalskiadam.designrun.app.method.TrainingType;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tranings")
@@ -12,17 +13,22 @@ public class Training {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
+        @NotNull
         @ManyToOne
         private Day day;
 
+        @NotNull
         @ManyToOne
         private Week week;
 
+        @NotNull
         @ManyToOne
         private Plan plan;
 
+        @NotNull
         @ManyToOne
         private TrainingType trainingType;
+
 
         private int orderInDay;
 

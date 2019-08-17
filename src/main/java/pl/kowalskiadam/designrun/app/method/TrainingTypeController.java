@@ -4,12 +4,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.kowalskiadam.designrun.app.user.Coach;
 import pl.kowalskiadam.designrun.app.user.CoachRepository;
 
+import javax.validation.Valid;
+
 @Controller
-@RequestMapping("/traningType/{id}")
+@RequestMapping("/trainingType/{id}")
 public class TrainingTypeController {
 
     private final MethodRepository methodRepository;
@@ -30,12 +33,15 @@ public class TrainingTypeController {
             return "redirect:/login";
         } else {
             model.addAttribute("trainingType", trainingType);
-            return "method/traningTypeDetails";
+            return "method/trainingTypeDetails";
         }
     }
 
     @PostMapping(value = "/details")
-    public String executeUpdate(@ModelAttribute TrainingType trainingType, @PathVariable Long id) {
+    public String executeUpdate(@ModelAttribute @Valid TrainingType trainingType, BindingResult bindingResult, @PathVariable Long id) {
+        if (bindingResult.hasErrors()){
+            return "method/trainingTypeDetails";
+        }
         TrainingType oldTraningType = trainingTypeRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         oldTraningType.setName(trainingType.getName());
         oldTraningType.setShortCut(trainingType.getShortCut());

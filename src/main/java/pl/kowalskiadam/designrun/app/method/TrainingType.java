@@ -1,6 +1,12 @@
 package pl.kowalskiadam.designrun.app.method;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "training_types")
@@ -13,14 +19,23 @@ public class TrainingType {
 
     private boolean hide;
 
+    @NotNull
+    @Size(min = 1, max = 40)
     private String name;
 
+    @Size(min = 0, max = 5000)
     private String description;
 
+    @NotNull
+    @Size(min = 1, max = 3)
     private String shortCut;
 
+    @Min(value=1)
+    @Max(value = 99)
     private Integer minDistance;
 
+    @Min(value=1)
+    @Max(value = 99)
     private Integer maxDistance;
 
     @ManyToOne

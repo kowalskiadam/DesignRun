@@ -25,10 +25,8 @@ public class Method {
     @Size(min = 0, max = 1000)
     private String shortDescription;
 
-    @NotNull
     private boolean hide;
 
-    @NotNull
     @ManyToOne
     private Coach owner;
 

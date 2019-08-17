@@ -1,6 +1,11 @@
 package pl.kowalskiadam.designrun.app.plan;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,16 +19,22 @@ public class Day {
     private Long id;
 
     @ManyToOne
+    @NotNull
     private Week week;
 
     @ManyToOne
+    @NotNull
     private Plan plan;
 
     @OneToMany(mappedBy = "day")
     private List<Training> trainings = new ArrayList<>();
 
+    @NotNull
     private LocalDate date;
 
+    @NotNull
+    @Min(value=1)
+    @Max(value = 7)
     private int dayOfWeek;
 
     public Long getId() {

@@ -18,11 +18,13 @@
 
     <label for="nameId">Name:</label>
     <form:input type="text" path="name" id="nameId"/>
+    <form:errors path="name" />
 
     <br>
 
     <label for="descriptionId">Name:</label>
     <form:textarea type="text" rows="10" cols="50" path="shortDescription" id="descriptionId"/>
+    <form:errors path="shortDescription" />
 
     <br>
 
@@ -32,7 +34,7 @@
 
 <h3>Operations</h3>
 
-<a href="addTraningType">Add new training type</a><br/>
+<a href="addTrainingType">Add new training type</a><br/>
 
 
     <h3>Training types list</h3>
@@ -50,7 +52,7 @@
                 <td>${trainingType.minDistance}</td>
                 <td>${trainingType.maxDistance}</td>
                 <td>
-                    <a href="/traningType/${trainingType.id}/details/">Details</a>
+                    <a href="/trainingType/${trainingType.id}/details/">Details</a>
                 </td>
             </tr>
 

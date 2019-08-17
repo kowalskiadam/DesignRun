@@ -1,10 +1,15 @@
 package pl.kowalskiadam.designrun.app.plan;
 
+import org.hibernate.validator.constraints.NotBlank;
 import pl.kowalskiadam.designrun.app.method.Method;
 import pl.kowalskiadam.designrun.app.user.Athlete;
 import pl.kowalskiadam.designrun.app.user.Coach;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,28 +22,40 @@ public class Plan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @OneToMany(mappedBy = "plan")
     private List<Week> weeks = new ArrayList<>();
 
+    @NotNull
     @OneToMany(mappedBy = "plan")
     private List<Day> days = new ArrayList<>();
 
+    @NotNull
     @OneToMany(mappedBy = "plan")
     private List<Training> trainings = new ArrayList<>();
 
+    @NotNull
     @ManyToOne
     private Coach coach;
 
+    @NotNull
     @ManyToOne
     private Athlete athlete;
 
+    @NotNull
     @ManyToOne
     private Method method;
 
+    @NotNull
+    @Size(min = 2, max = 60)
     private String name;
 
+    @NotNull
     private LocalDate startDay;
 
+    @NotNull
+    @Min(value=1)
+    @Max(value = 52)
     private int weeksNumber;
 
     public Long getId() {

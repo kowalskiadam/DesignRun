@@ -14,13 +14,13 @@
     <script>
         function confirmCancelInvitation(coachId, athleteId, login) {
             if (confirm("Would you like to cancel invitation for login: \"" + login + "\"")) {
-                window.location.href = "/coach/" + coachId + "/cancelInvitation/" + athleteId;
+                window.location.href = "/coach/cancelInvitation/" + athleteId;
             }
         }
 
         function confirmRemove(coachId, athleteId, login) {
             if (confirm("Would you like to remove athlete with login: \"" + login + "\"")) {
-                window.location.href = "/coach/" + coachId + "/remove/" + athleteId;
+                window.location.href = "/coach/remove/" + athleteId;
             }
         }
     </script>

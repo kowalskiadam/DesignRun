@@ -4,6 +4,8 @@ import org.hibernate.annotations.Cascade;
 import pl.kowalskiadam.designrun.app.plan.Plan;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +21,12 @@ public class Athlete extends User {
     @OneToMany(mappedBy = "athlete")
     private List<Plan> plans;
 
+    @NotNull
+    @Size(min = 1, max = 20)
     private String firstName;
 
+    @NotNull
+    @Size(min = 1, max = 30)
     private String lastName;
 
     public List<Coach> getCoaches() {

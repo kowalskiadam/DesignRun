@@ -2,6 +2,9 @@ package pl.kowalskiadam.designrun.app.plan;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,14 +17,20 @@ public class Week {
     private Long id;
 
     @ManyToOne
+    @NotNull
     private Plan plan;
 
     @OneToMany(mappedBy = "week")
+    @NotNull
     private List<Day> days = new ArrayList<>();
 
     @OneToMany(mappedBy = "week")
+    @NotNull
     private List<Training> trainings = new ArrayList<>();
 
+    @NotNull
+    @Min(value=1)
+    @Max(value = 52)
     private Integer orderInPlan;
 
     public Long getId() {

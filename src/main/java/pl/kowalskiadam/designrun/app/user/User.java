@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import pl.kowalskiadam.designrun.app.secure.Authority;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +24,7 @@ public abstract class User {
         @Column(unique = true, length = 30)
         private String login;
 
+        @NotNull
         private String password;
 
         @ManyToMany(fetch = FetchType.EAGER)

@@ -4,10 +4,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.kowalskiadam.designrun.app.user.Coach;
 import pl.kowalskiadam.designrun.app.user.CoachRepository;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -71,17 +73,20 @@ public class MethodController {
 
     //to test
     @PostMapping(value="/details")
-    public String executeUpdate(@ModelAttribute Method method, @PathVariable Long id){
+    public String executeUpdate(@ModelAttribute @Valid Method method, BindingResult bindingResult, @PathVariable Long id){
+        if (bindingResult.hasErrors()){
+            return "method/details";
+        }
         Method oldMethod = methodRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         oldMethod.setName(method.getName());
         oldMethod.setShortDescription(method.getShortDescription());
         methodRepository.save(oldMethod);
         Long ownerId = oldMethod.getOwner().getId();
-        return "redirect:/coach/"+ownerId+"/methodsList";
+        return "redirect:/coach/methodsList";
     }
 
     //to test
-    @GetMapping(value = "/details/addTraningType")
+    @GetMapping(value = "/details/addTrainingType")
     public String showAddTraningType(Model model, @PathVariable Long id) {
 
         Coach coach = checkCoachSecurity();
@@ -89,14 +94,17 @@ public class MethodController {
         if (coach == null || !method.getOwner().getId().equals(coach.getId())){
             return "redirect:/login";
         } else {
-            model.addAttribute("traningType", new TrainingType());
-            return "method/addTraningType";
+            model.addAttribute("trainingType", new TrainingType());
+            return "method/addTrainingType";
         }
     }
 
     //to test
-    @PostMapping(value = "/details/addTraningType")
-    public String executeAddTraningType(@ModelAttribute TrainingType trainingType, @PathVariable Long id){
+    @PostMapping(value = "/details/addTrainingType")
+    public String executeAddTraningType(@ModelAttribute @Valid TrainingType trainingType, BindingResult bindingResult, @PathVariable Long id){
+        if (bindingResult.hasErrors()){
+            return "method/addTrainingType";
+        }
         Method method = methodRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         trainingType.setMethod(method);
         trainingType.setHide(false);
