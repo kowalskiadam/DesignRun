@@ -403,8 +403,6 @@ public class CoachController {
                 training.setTrainingType(planForm.getDefaultTrainingType());
                 training.generateName();
                 training.generateShortCut();
-                training.setPlan(plan);
-                training.setWeek(weeks.get(j));
                 training.setOrderInDay(trainingForms.get(i).getOrder());
                 trainingRepository.save(training);
             }

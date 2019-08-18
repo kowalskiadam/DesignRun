@@ -37,6 +37,10 @@ public class Day {
     @Max(value = 7)
     private int dayOfWeek;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
@@ -86,7 +90,7 @@ public class Day {
         return "Day{" +
                 "id=" + id +
                 ", week=" + week +
-                ", trainings=" + trainings +
+                ", plan=" + plan +
                 ", date=" + date +
                 ", dayOfWeek=" + dayOfWeek +
                 '}';

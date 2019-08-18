@@ -8,6 +8,10 @@ import pl.kowalskiadam.designrun.app.method.Method;
 import pl.kowalskiadam.designrun.app.method.TrainingType;
 import pl.kowalskiadam.designrun.app.user.Athlete;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +22,7 @@ import java.util.List;
 public class PlanForm {
 
     private Athlete athlete;
-    private String name;
-    private LocalDate startDay;
+    private String name;private LocalDate startDay;
     private int weeksNumber;
     private List<Athlete> coachAthletes = new ArrayList<>();
     private Method method;
@@ -28,7 +31,6 @@ public class PlanForm {
     private List<TrainingType> trainingTypes = new ArrayList<>();
     private TrainingType defaultTrainingType;
     private int defaultDistance;
-
 
     private int mondaysTrainings;
     private int tuesdaysTrainings;

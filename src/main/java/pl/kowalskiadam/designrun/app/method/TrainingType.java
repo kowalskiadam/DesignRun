@@ -27,7 +27,7 @@ public class TrainingType {
     private String description;
 
     @NotNull
-    @Size(min = 1, max = 3)
+    @Size(min = 1, max = 10)
     private String shortCut;
 
     @Min(value=1)
@@ -105,6 +105,7 @@ public class TrainingType {
     public String toString() {
         return "TrainingType{" +
                 "id=" + id +
+                ", hide=" + hide +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", shortCut='" + shortCut + '\'' +

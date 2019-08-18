@@ -32,7 +32,7 @@
             <td>${plan.weeksNumber}</td>
             <td>${plan.athlete.login}</td>
             <td>${plan.method.name}</td>
-            <td><a href="/plan/${plan.id}/coach/allTrainings/">Details</a>
+            <td><a href="/plan/${plan.id}/coach/details/">Details</a>
             </td>
         </tr>
 

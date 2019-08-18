@@ -19,16 +19,7 @@ public class Training {
 
         @NotNull
         @ManyToOne
-        private Week week;
-
-        @NotNull
-        @ManyToOne
-        private Plan plan;
-
-        @NotNull
-        @ManyToOne
         private TrainingType trainingType;
-
 
         private int orderInDay;
 
@@ -62,22 +53,6 @@ public class Training {
 
     public void setDay(Day day) {
         this.day = day;
-    }
-
-    public Week getWeek() {
-        return week;
-    }
-
-    public void setWeek(Week week) {
-        this.week = week;
-    }
-
-    public Plan getPlan() {
-        return plan;
-    }
-
-    public void setPlan(Plan plan) {
-        this.plan = plan;
     }
 
     public TrainingType getTrainingType() {
@@ -142,6 +117,7 @@ public class Training {
                 "id=" + id +
                 ", day=" + day +
                 ", trainingType=" + trainingType +
+                ", orderInDay=" + orderInDay +
                 ", distance=" + distance +
                 ", name='" + name + '\'' +
                 ", shortCut='" + shortCut + '\'' +

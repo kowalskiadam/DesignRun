@@ -24,10 +24,6 @@ public class Week {
     @NotNull
     private List<Day> days = new ArrayList<>();
 
-    @OneToMany(mappedBy = "week")
-    @NotNull
-    private List<Training> trainings = new ArrayList<>();
-
     @NotNull
     @Min(value=1)
     @Max(value = 52)
@@ -53,14 +49,6 @@ public class Week {
         this.days = days;
     }
 
-    public List<Training> getTrainings() {
-        return trainings;
-    }
-
-    public void setTrainings(List<Training> trainings) {
-        this.trainings = trainings;
-    }
-
     public Integer getOrderInPlan() {
         return orderInPlan;
     }
@@ -69,6 +57,12 @@ public class Week {
         this.orderInPlan = orderInPlan;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Week{" +
+                "id=" + id +
+                ", plan=" + plan +
+                ", orderInPlan=" + orderInPlan +
+                '}';
+    }
 }

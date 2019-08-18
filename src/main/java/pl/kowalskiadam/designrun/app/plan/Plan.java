@@ -31,10 +31,6 @@ public class Plan {
     private List<Day> days = new ArrayList<>();
 
     @NotNull
-    @OneToMany(mappedBy = "plan")
-    private List<Training> trainings = new ArrayList<>();
-
-    @NotNull
     @ManyToOne
     private Coach coach;
 
@@ -126,7 +122,16 @@ public class Plan {
         this.weeksNumber = weeksNumber;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return "Plan{" +
+                "id=" + id +
+                ", coach=" + coach +
+                ", athlete=" + athlete +
+                ", method=" + method +
+                ", name='" + name + '\'' +
+                ", startDay=" + startDay +
+                ", weeksNumber=" + weeksNumber +
+                '}';
+    }
 }

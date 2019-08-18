@@ -39,8 +39,7 @@
 
     <label for="weeksNumberid">Number of weeks in plan:</label>
     <form:input type="number" value = "20" path="weeksNumber" id="weeksNumberid"/>
-
-
+    
     <input type="submit" value="Add">
 
 </form:form>

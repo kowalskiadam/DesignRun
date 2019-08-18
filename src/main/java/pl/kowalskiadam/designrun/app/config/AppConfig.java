@@ -17,6 +17,9 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import pl.kowalskiadam.designrun.app.method.MethodConverter;
 import pl.kowalskiadam.designrun.app.method.TrainingTypeConverter;
+import pl.kowalskiadam.designrun.app.plan.DayConverter;
+import pl.kowalskiadam.designrun.app.plan.PlanConverter;
+import pl.kowalskiadam.designrun.app.plan.WeekConverter;
 import pl.kowalskiadam.designrun.app.user.AthleteConverter;
 
 import javax.persistence.EntityManagerFactory;
@@ -68,6 +71,9 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         registry.addConverter(getAthleteConverter());
         registry.addConverter(getMethodConverter());
         registry.addConverter(getTrainingTypeConverter());
+        registry.addConverter(getDayConverter());
+        registry.addConverter(getWeekConverter());
+        registry.addConverter(getPlanConverter());
     }
     @Bean
     public AthleteConverter getAthleteConverter() {
@@ -84,7 +90,19 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         return new TrainingTypeConverter();
     }
 
+    @Bean
+    public DayConverter getDayConverter() {
+        return new DayConverter();
+    }
 
+    @Bean
+    public WeekConverter getWeekConverter() {
+        return new WeekConverter();
+    }
 
+    @Bean
+    public PlanConverter getPlanConverter() {
+        return new PlanConverter();
+    }
 
 }
