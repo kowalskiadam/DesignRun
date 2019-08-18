@@ -21,14 +21,6 @@
 <body>
 <form:form method="post" modelAttribute="training">
 
-   <form:input type="hidden" path="id"/>
-    <form:input type="hidden" path="shortCut"/>
-    <form:input type="hidden" path="athleteComment"/>
-
-    <label for="dayId">Day:</label>
-    <form:select path="day" items="${days}" itemValue="id" itemLabel="date" id="dayId"/>
-    <form:errors path="day" />
-    <br>
 
     <label for="trainingTypeId">Training type:</label>
     <form:select path="trainingType" items="${trainingTypes}" itemValue="id" itemLabel="name" id="trainingTypeId"/>
@@ -36,31 +28,30 @@
     <br>
 
     <label for="orderInDayId">Order in day:</label>
-    <form:input type="number" path="orderInDay" id="orderInDayId"/>
+    <form:input type="number" path="orderInDay" id="orderInDayId" value="1"/>
     <form:errors path="orderInDay" />
     <br>
 
     <label for="distanceId">Distance:</label>
-    <form:input type="number" path="distance" id="distanceId"/>
+    <form:input type="number" path="distance" id="distanceId" value="10"/>
     <form:errors path="distance" />
     <br>
 
     <label for="nameId">Name:</label>
-    <form:input type="text" path="name" id="nameId"/>
+    <form:input type="text" path="name" id="nameId" value="example name"/>
     <form:errors path="name" />
     <br>
 
     <label for="descriptionId">Description:</label>
-    <form:textarea type="text" rows="10" cols="50" path="description" id="descriptionId"/>
+    <form:textarea type="text" rows="10" cols="50" path="description" id="descriptionId" value="example description"/>
     <form:errors path="description" />
 
     <br>
 
-    <input type="submit" value="Update">
+    <input type="submit" value="Create">
 
 </form:form>
 
-<a href="#" onclick="confirmDelete(${training.id}, '${training.name}')">Delete</a>
 
 
 </body>

@@ -13,7 +13,6 @@ public class Training {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
-        @NotNull
         @ManyToOne
         private Day day;
 

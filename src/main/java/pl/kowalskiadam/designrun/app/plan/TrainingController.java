@@ -8,9 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.kowalskiadam.designrun.app.method.Method;
 import pl.kowalskiadam.designrun.app.method.TrainingType;
 import pl.kowalskiadam.designrun.app.method.TrainingTypeRepository;
+import pl.kowalskiadam.designrun.app.user.Athlete;
+import pl.kowalskiadam.designrun.app.user.AthleteRepository;
 import pl.kowalskiadam.designrun.app.user.Coach;
 import pl.kowalskiadam.designrun.app.user.CoachRepository;
 
@@ -28,14 +29,17 @@ public class TrainingController {
     private final WeekRepository weekRepository;
     private final DayRepository dayRepository;
     private final TrainingTypeRepository trainingTypeRepository;
+    private final AthleteRepository athleteRepository;
 
-    public TrainingController(TrainingRepository trainingRepository, CoachRepository coachRepository, PlanRepository planRepository, WeekRepository weekRepository, DayRepository dayRepository, TrainingTypeRepository trainingTypeRepository) {
+
+    public TrainingController(TrainingRepository trainingRepository, CoachRepository coachRepository, PlanRepository planRepository, WeekRepository weekRepository, DayRepository dayRepository, TrainingTypeRepository trainingTypeRepository, AthleteRepository athleteRepository) {
         this.trainingRepository = trainingRepository;
         this.coachRepository = coachRepository;
         this.planRepository = planRepository;
         this.weekRepository = weekRepository;
         this.dayRepository = dayRepository;
         this.trainingTypeRepository = trainingTypeRepository;
+        this.athleteRepository = athleteRepository;
     }
 
     @GetMapping("/details")
@@ -60,10 +64,10 @@ public class TrainingController {
         if (bindingResult.hasErrors()){
             return "planCoach/trainingDetails";
         }
-        Long methodId = training.getDay().getWeek().getPlan().getId();
+        Long trainingId = training.getDay().getWeek().getPlan().getId();
         training.generateShortCut();
         trainingRepository.save(training);
-        return "redirect:/plan/"+methodId+"/coach/allTrainingsByWeeks";
+        return "redirect:/plan/"+trainingId+"/coach/allTrainingsByWeeks";
     }
 
     private List<Day> populeteDays(Day trainingDay){
@@ -97,11 +101,50 @@ public class TrainingController {
         return days;
     }
 
+
+
+
+    @GetMapping("/delete")
+    public String delete(@PathVariable Long id){
+        Training training = trainingRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        Coach coach = checkCoachSecurity();
+        Plan plan = planRepository.findById(training.getDay().getWeek().getPlan().getId()).orElseThrow(IllegalArgumentException::new);
+        if (coach == null || !plan.getCoach().getId().equals(coach.getId())){
+            return "redirect:/login";
+        } else {
+            trainingRepository.delete(training);
+            return "redirect:/plan/"+ plan.getId()+"/coach/allTrainingsByWeeks";
+        }
+    }
+
+    @GetMapping("/athleteView")
+    @Transactional
+    public String athleteView(@PathVariable Long id, Model model){
+        Training training = trainingRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        Athlete athlete = checkAthleteSecurity();
+        Plan plan = planRepository.findById(training.getDay().getWeek().getPlan().getId()).orElseThrow(IllegalArgumentException::new);
+        if (athlete == null || !plan.getAthlete().getId().equals(athlete.getId())){
+            return "redirect:/login";
+        } else {
+            model.addAttribute("training", training);
+            return "planAthlete/trainingDetails";
+        }
+    }
+
     private Coach checkCoachSecurity() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             String login = ((UserDetails) principal).getUsername();
             return coachRepository.findByLogin(login);
         } else return null;
+    }
+
+    private Athlete checkAthleteSecurity(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails){
+            String login = ((UserDetails) principal).getUsername();
+            return athleteRepository.findByLogin(login);
+        }
+        else return null;
     }
 }

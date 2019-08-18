@@ -20,6 +20,7 @@ First name: ${athlete.firstName};
 Last name: ${athlete.lastName};
 <br>
 <br>
+<a href="planList">Plan's list</a><br/>
 <a href="advanced">Advanced</a><br/>
 
 </body>
