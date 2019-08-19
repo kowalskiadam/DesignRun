@@ -26,6 +26,9 @@ ${SPRING_SECURITY_LAST_EXCEPTION.message}
             <td><input name="submit" type="submit" value="submit" /></td>
         </tr>
     </table>
+
+    <a href="/newCoach">Create new coach</a>
+
 </form>
 </body>
 </html>

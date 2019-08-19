@@ -22,6 +22,7 @@ public abstract class User {
         @NotBlank
         @Size(min = 5, max = 30)
         @Column(unique = true, length = 30)
+        //@UniqueUser
         private String login;
 
         @NotNull
@@ -31,8 +32,8 @@ public abstract class User {
         @JoinTable(name = "user_authority",
                 joinColumns = {@JoinColumn(name = "user_id")},
                 inverseJoinColumns = {@JoinColumn(name = "authority_id")})
-        private Set<Authority> authorities = new HashSet<>();
 
+        private Set<Authority> authorities = new HashSet<>();
 
         public Long getId() {
                 return id;

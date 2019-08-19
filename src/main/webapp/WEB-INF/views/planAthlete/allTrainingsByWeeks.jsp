@@ -28,7 +28,7 @@
             <td>${week.orderInPlan}</td>
             <c:forEach var="day" items="${week.days}">
                <td>
-                   {day.date}
+                   ${day.date}
                    <c:forEach var="training" items="${day.trainings}">
                  <a href="/training/${training.id}/athleteView/"><br>${training.orderInDay}. ${training.shortCut}</a>
 

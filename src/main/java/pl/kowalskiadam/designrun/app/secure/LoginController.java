@@ -1,19 +1,32 @@
 package pl.kowalskiadam.designrun.app.secure;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import pl.kowalskiadam.designrun.app.user.Athlete;
-import pl.kowalskiadam.designrun.app.user.Coach;
-import pl.kowalskiadam.designrun.app.user.User;
+import pl.kowalskiadam.designrun.app.user.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @SessionAttributes("loggedInUser")
 public class LoginController {
+
+    private final CoachRepository coachRepository;
+    private final UserRepository userRepository;
+
+    public LoginController(CoachController coachController, CoachRepository coachRepository, UserRepository userRepository) {
+        this.coachRepository = coachRepository;
+        this.userRepository = userRepository;
+    }
+
 
     //ok
     @RequestMapping("")
@@ -50,4 +63,29 @@ public class LoginController {
         return "logout";
     }
 
+    @RequestMapping("/newCoach")
+    public String showCreateNewCoach(Model model){
+        model.addAttribute("coach", new Coach());
+        String message = "";
+        model.addAttribute("message", message);
+        return "main/newCoach";
+    }
+
+    @PostMapping("/newCoach")
+    public String createNewCoach(@ModelAttribute @Valid Coach coach, BindingResult bindingResult, Model model){
+        if (bindingResult.hasErrors()){
+        return "main/newCoach";
+    }
+        List<User> users = userRepository.findAll();
+        for (User user : users){
+            if (user.getLogin().equals(coach.getLogin())){
+                model.addAttribute("message", "Login exist. Create coach with new login");
+                return "main/newCoach";
+            }
+        }
+        coach.setPassword(BCrypt.hashpw(coach.getPassword(), BCrypt.gensalt()));
+        coachRepository.save(coach);
+        return "redirect: login";
+
+}
 }
