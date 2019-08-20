@@ -1,5 +1,6 @@
 package pl.kowalskiadam.designrun.app.user;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,6 +34,7 @@ public class CoachController {
     private final DayRepository dayRepository;
     private final TrainingRepository trainingRepository;
     private final TrainingTypeRepository trainingTypeRepository;
+    private final UserRepository userRepository;
  //   private final Validator validator;
 
     @Autowired
@@ -54,7 +56,7 @@ public class CoachController {
 
     public CoachController(CoachRepository coachRepository, MethodRepository methodRepository, AthleteRepository athleteRepository,
                            PlanRepository planRepository, WeekRepository weekRepository, DayRepository dayRepository,
-                           TrainingRepository trainingRepository, TrainingTypeRepository trainingTypeRepository, Validator validator){
+                           TrainingRepository trainingRepository, TrainingTypeRepository trainingTypeRepository, Validator validator, UserRepository userRepository){
         this.coachRepository = coachRepository;
         this.methodRepository = methodRepository;
         this.athleteRepository = athleteRepository;
@@ -64,9 +66,20 @@ public class CoachController {
         this.trainingRepository = trainingRepository;
         this.trainingTypeRepository = trainingTypeRepository;
      //   this.validator = validator;
+        this.userRepository = userRepository;
     }
 
-    @GetMapping("/dashboard")
+    private Coach checkCoachSecurity(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails){
+            String login = ((UserDetails) principal).getUsername();
+            Coach coach = coachRepository.findByLogin(login);
+            return coach;
+        }
+        else return null;
+    }
+
+    @GetMapping("dashboard")
     public String showDashboard(Model model){
 
         Coach coach = checkCoachSecurity();
@@ -78,7 +91,7 @@ public class CoachController {
         }
     }
 
-    @GetMapping("/plansList")
+    @GetMapping("plansList")
     public String showPlansList(Model model){
         Coach coach = checkCoachSecurity();
         if (coach == null){
@@ -93,7 +106,7 @@ public class CoachController {
         }
     }
 
-    @GetMapping("/addPlan1")
+    @GetMapping("addPlan1")
     public String addNewPlan1(Model model){
 
         Coach coach = checkCoachSecurity();
@@ -109,13 +122,13 @@ public class CoachController {
         }
     }
 
-    @PostMapping("/addPlan1")
+    @PostMapping("addPlan1")
     public String addNewPlan1complete1(@ModelAttribute PlanForm planForm){
         planForm.setTrainingTypes(trainingTypes(planForm.getMethod().getId()));
         return "redirect:/coach/addPlan2";
     }
 
-    @GetMapping("/addPlan2")
+    @GetMapping("addPlan2")
     public String addNewPlan2(Model model){
 
         Coach coach = checkCoachSecurity();
@@ -126,7 +139,7 @@ public class CoachController {
         }
     }
 
-    @PostMapping("/addPlan2")
+    @PostMapping("addPlan2")
     public String addNewPlan1complete2(@ModelAttribute PlanForm planForm){
         Coach coach = checkCoachSecurity();
         Long id = coach.getId();
@@ -149,7 +162,7 @@ public class CoachController {
         return "redirect:/coach/dashboard";
     }
 
-    @GetMapping("/methodsList")
+    @GetMapping("methodsList")
     public String showMethodList(Model model){
         Coach coach = checkCoachSecurity();
         if (coach == null){
@@ -162,7 +175,7 @@ public class CoachController {
         }
     }
 
-    @GetMapping("/addMethod")
+    @GetMapping("addMethod")
     public String addNewMethod(Model model){
         Coach coach = checkCoachSecurity();
         if (coach == null){
@@ -173,7 +186,7 @@ public class CoachController {
         }
     }
 
-    @PostMapping("/addMethod")
+    @PostMapping("addMethod")
     public String createNewMethod(@ModelAttribute @Valid Method method, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             return "coach/addMethod";
@@ -186,7 +199,7 @@ public class CoachController {
         return "redirect:methodsList";
     }
 
-    @GetMapping("/advanced")
+    @GetMapping("advanced")
     public String showAdvanced(){
         Coach coach = checkCoachSecurity();
         if (coach == null){
@@ -196,7 +209,7 @@ public class CoachController {
         }
     }
 
-    @GetMapping("/hideMethodsList")
+    @GetMapping("hideMethodsList")
     public String showHideMethodList(Model model){
         Coach coach = checkCoachSecurity();
         if (coach == null){
@@ -209,7 +222,42 @@ public class CoachController {
         }
     }
 
-    @GetMapping("/athleteList")
+    @GetMapping("newAthlete")
+    public String addNewAthlete(Model model){
+        Coach coach = checkCoachSecurity();
+        if (coach == null){
+            return "redirect:/login";
+        } else {
+            model.addAttribute("athlete", new Athlete());
+            return "coach/newAthlete";
+        }
+    }
+
+    @PostMapping("newAthlete")
+    public String createNewAthlete(@ModelAttribute @Valid Athlete athlete, BindingResult bindingResult, Model model){
+        Coach coach = checkCoachSecurity();
+        Long id = coach.getId();
+        if (bindingResult.hasErrors()){
+            return "coach/newAthlete";
+        }
+        List<User> users = userRepository.findAll();
+        for (User user : users){
+            if (user.getLogin().equals(athlete.getLogin())){
+                model.addAttribute("message", "Login exist. Create athlete with new login");
+                return "coach/newAthlete";
+            }
+        }
+        athlete.setPassword(BCrypt.hashpw(athlete.getPassword(), BCrypt.gensalt()));
+        athleteRepository.save(athlete);
+        List<Athlete> athletes = athleteRepository.getAthleteByCoaches(id);
+        athletes.add(athlete);
+        coach.setAthletes(athletes);
+        coachRepository.save(coach);
+        return "redirect: athleteList";
+    }
+
+
+    @GetMapping("athleteList")
     public String showAthletes(Model model){
         Coach coach = checkCoachSecurity();
         if (coach == null){
@@ -225,7 +273,7 @@ public class CoachController {
         }
     }
 
-    @PostMapping("/athleteList")
+    @PostMapping("athleteList")
     public String findAthete(@RequestParam  String loginToFind, Model model){
 
         Coach coach = checkCoachSecurity();
@@ -279,7 +327,7 @@ public class CoachController {
     }
 
 
-    @GetMapping("/remove/{athleteId}")
+    @GetMapping("remove/{athleteId}")
     public String removeAthlete(@PathVariable Long athleteId){
         Coach coach = checkCoachSecurity();
         if (coach == null){
@@ -294,7 +342,7 @@ public class CoachController {
         }
     }
 
-    @GetMapping("/cancelInvitation/{athleteId}")
+    @GetMapping("cancelInvitation/{athleteId}")
     public String cancelInvitation(@PathVariable Long athleteId){
 
         Coach coach = checkCoachSecurity();
@@ -312,15 +360,7 @@ public class CoachController {
 
 
 
-    private Coach checkCoachSecurity(){
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails){
-            String login = ((UserDetails) principal).getUsername();
-            Coach coach = coachRepository.findByLogin(login);
-            return coach;
-        }
-        else return null;
-    }
+
 
     void removeAthlete(List<Athlete> athletes, Long athleteId, Long coachId){
         int position = -1;

@@ -61,4 +61,8 @@ public class Coach extends User {
     public void setPotentialAthletes(List<Athlete> potentialAthletes) {
         this.potentialAthletes = potentialAthletes;
     }
+
+    public void addAthlete(Athlete athlete, List<Athlete> athletes){
+        athletes.add(athlete);
+    }
 }

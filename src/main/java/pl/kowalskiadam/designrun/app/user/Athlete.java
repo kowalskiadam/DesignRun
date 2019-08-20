@@ -68,4 +68,8 @@ public class Athlete extends User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public void addCoach(Coach coach){
+        this.coaches.add(coach);
+    }
 }

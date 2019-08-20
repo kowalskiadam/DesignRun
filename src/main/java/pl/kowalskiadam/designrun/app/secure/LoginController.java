@@ -86,6 +86,5 @@ public class LoginController {
         coach.setPassword(BCrypt.hashpw(coach.getPassword(), BCrypt.gensalt()));
         coachRepository.save(coach);
         return "redirect: login";
-
-}
+    }
 }

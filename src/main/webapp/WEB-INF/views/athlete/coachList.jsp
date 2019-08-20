@@ -13,19 +13,19 @@
     <script>
         function confirmInvitation(athleteId, coachId, coachLogin) {
             if (confirm("Would you like to confirm invitation from login: \"" + coachLogin + "\"")) {
-                window.location.href = "/athlete/" + athleteId + "/acceptInvitation/" + coachId;
+                window.location.href = "/athlete/acceptInvitation/" + coachId;
             }
         }
 
         function confirmRejectInvitation(athleteId, coachId, coachLogin) {
             if (confirm("Would you like to reject invitation from login: \"" + coachLogin + "\"")) {
-                window.location.href = "/athlete/" + athleteId + "/rejectInvitation/" + coachId;
+                window.location.href = "/athlete/rejectInvitation/" + coachId;
             }
         }
 
         function confirmRemove(athleteId, coachId, coachLogin) {
             if (confirm("Would you like to remove coach with login: \"" + coachLogin + "\"")) {
-                window.location.href = "/athlete/" + athleteId + "/removeCoach/" + coachId;
+                window.location.href = "/athlete/removeCoach/" + coachId;
             }
         }
     </script>

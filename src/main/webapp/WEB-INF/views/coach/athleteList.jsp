@@ -27,6 +27,9 @@
 </head>
 <body>
 <h1>Manage athletes</h1>
+
+<a href="/coach/newAthlete"><h3>Create new athlete</h3></a>
+
 <h3>Find athlete</h3>
 <form method="post">
     Login to find: <input type="text" name="loginToFind"><br>
