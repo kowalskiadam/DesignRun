@@ -8,8 +8,10 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
-
-<table>
+<div class="image1" style="background-image:url(<c:url value='/resources/images/running1.jpeg' />)">
+    <br>
+    <p class="table-head">All trainings</p>
+<table class="container">
     <tr>
         <th>Name</th>
         <th>StartDay</th>

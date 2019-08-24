@@ -11,7 +11,9 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
+<div class="image1" style="background-image:url(<c:url value='/resources/images/running1.jpeg' />)">
 
+<div class="form-style-6">
 <h1>Add plan 1/2</h1>
 <form:form method="post" modelAttribute="planForm">
 
@@ -43,5 +45,7 @@
     <input type="submit" value="Add">
 
 </form:form>
+</div>
+</div>
 </body>
 </html>

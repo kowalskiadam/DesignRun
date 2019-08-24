@@ -20,12 +20,15 @@
 <body>
 <%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
 
-<h3>Athletes list</h3>
-<table>
+<div class="image1" style="background-image:url(<c:url value='/resources/images/running1.jpeg' />)">
+    <br>
+    <p class="table-head">Athletes list</p>
+<table class="container">
     <tr>
         <th>Login</th>
         <th>FirstName</th>
         <th>LastName</th>
+        <th>Remove</th>
     </tr>
     <c:forEach var="athlete" items="${athletes}">
         <tr>
@@ -33,7 +36,7 @@
             <td>${athlete.firstName}</td>
             <td>${athlete.lastName}</td>
             <td>
-                <a href="#" onclick="confirmRemove(${coachId}, '${athlete.id}', '${athlete.login}')">Remove from your athletes</a>
+                <a class="day-link" href="#" onclick="confirmRemove(${coachId}, '${athlete.id}', '${athlete.login}')">Remove from your athletes</a>
             </td>
         </tr>
 

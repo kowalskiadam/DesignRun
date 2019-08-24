@@ -9,15 +9,17 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
-<h3>Plan list</h3>
-<table>
+<div class="image1" style="background-image:url(<c:url value='/resources/images/running1.jpeg' />)">
+    <br>
+<p class="table-head">Plan list</p>
+<table class="container">
     <tr>
         <th>Name</th>
         <th>StartDay</th>
         <th>Number of weeks</th>
         <th>Athlete</th>
         <th>Method</th>
-
+        <th>Details</th>
     </tr>
     <c:forEach var="plan" items="${coachPlans}">
         <tr>
@@ -26,8 +28,7 @@
             <td>${plan.weeksNumber}</td>
             <td>${plan.athlete.login}</td>
             <td>${plan.method.name}</td>
-            <td><a href="/plan/${plan.id}/coach/details/">Details</a>
-            </td>
+            <td ><a class="training-link" href="/plan/${plan.id}/coach/details/">Details</a></td>
         </tr>
 
     </c:forEach>

@@ -8,8 +8,10 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
-
-<table>
+<div class="image1" style="background-image:url(<c:url value='/resources/images/running1.jpeg' />)">
+    <br>
+    <p class="table-head">All trainings by weeks</p>
+<table class="container">
     <tr>
         <th>Week</th>
         <th>Monday</th>
@@ -25,9 +27,10 @@
             <td>${week.orderInPlan}</td>
             <c:forEach var="day" items="${week.days}">
                <td>
-                   <a href="/plan/${week.plan.id}/coach/addTraining/${day.date}"><br>${day.date}</a>
+                   <p>${day.date}</p>
+                   <a class="day-link" href="/plan/${week.plan.id}/coach/addTraining/${day.date}">Add training</a>
                    <c:forEach var="training" items="${day.trainings}">
-                 <a href="/training/${training.id}/details/"><br>${training.orderInDay}. ${training.shortCut}</a>
+                 <a class="training-link" href="/training/${training.id}/details/"><br>${training.orderInDay}. ${training.shortCut}</a>
 
                 </c:forEach>
                </td>
