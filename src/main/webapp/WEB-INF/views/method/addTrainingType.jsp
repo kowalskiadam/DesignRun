@@ -12,7 +12,9 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
+<div class="image1" style="background-image:url(<c:url value='/resources/images/running1.jpeg' />)">
 
+    <div class="form-style-6">
 <h1>Create new training type</h1>
 <br/>
 
@@ -44,6 +46,7 @@
     <input type="submit" value="Create">
 
 </form:form>
-
+    </div>
+</div>
 </body>
 </html>

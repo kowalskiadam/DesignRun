@@ -13,8 +13,9 @@
 <body>
 <%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
 
-<h1>Create new trainer</h1>
-<br/>
+<div class="image1" style="background-image:url(<c:url value='/resources/images/running1.jpeg' />)">
+    <div class="form-style-6">
+        <h1>Update training type</h1>
 
 <form:form method="post" modelAttribute="trainingType">
 

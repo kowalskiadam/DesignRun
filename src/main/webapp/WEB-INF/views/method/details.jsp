@@ -10,53 +10,34 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
+<div class="image1" style="background-image:url(<c:url value='/resources/images/running1.jpeg' />)">
 
-<h1>Method details</h1>
-<form:form method="post" modelAttribute="method">
+    <div class="info box4inline">
+        Method name: ${method.name}
 
-    <label for="nameId">Name:</label>
-    <form:input type="text" path="name" id="nameId"/>
-    <form:errors path="name" />
+    </div>
 
-    <br>
+    <div class="info box4inline">
+        Short description: ${method.shortDescription}
 
-    <label for="descriptionId">Name:</label>
-    <form:textarea type="text" rows="10" cols="50" path="shortDescription" id="descriptionId"/>
-    <form:errors path="shortDescription" />
+    </div>
 
-    <br>
+    <div class="success box4inline">
+        <a href="/method/${method.id}/update/">Update method information</a><br/>
 
-    <input type="submit" value="Update">
+    </div>
 
-</form:form>
+    <div class="success box4inline">
+        <a href="/method/${method.id}/addTrainingType/">Add new training types</a><br/>
 
-<h3>Operations</h3>
+    </div>
 
-<a href="addTrainingType">Add new training type</a><br/>
+    <div class="success box4inline">
+        <a href="/method/${method.id}/trainingTypesList/">Show all trainings types</a><br/>
 
+    </div>
 
-    <h3>Training types list</h3>
-  <table>
-        <tr>
-            <th>Name</th>
-            <th>shortCut</th>
-            <th>minDistance</th>
-            <th>maxDistance</th>
-        </tr>
-        <c:forEach var="trainingType" items="${trainingTypes}">
-            <tr>
-                <td>${trainingType.name}</td>
-                <td>${trainingType.shortCut}</td>
-                <td>${trainingType.minDistance}</td>
-                <td>${trainingType.maxDistance}</td>
-                <td>
-                    <a href="/trainingType/${trainingType.id}/details/">Details</a>
-                </td>
-            </tr>
-
-        </c:forEach>
-    </table>
-
+</div>
 
 
 </body>

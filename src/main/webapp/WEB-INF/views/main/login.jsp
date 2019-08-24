@@ -7,13 +7,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
+    <link href='<c:url value="/resources/css/style.css"/>' rel="stylesheet" type="text/css">
+
 </head>
 <body>
-<h1>Login</h1>
+<h1 style="text-align: center">Login page</h1>
 ${SPRING_SECURITY_LAST_EXCEPTION.message}
-<form action="login" method='POST'>
+<div class="login-page">
+<form class="form-style-6" action="login" method='POST'>
 
-    <table>
+    <table >
         <tr>
             <td>User:</td>
             <td><input type='text' name='username' value=''></td>
@@ -30,5 +33,6 @@ ${SPRING_SECURITY_LAST_EXCEPTION.message}
     <a href="/newCoach">Create new coach</a>
 
 </form>
+</div>
 </body>
 </html>

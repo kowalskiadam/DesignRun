@@ -9,9 +9,16 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
-<h1>Add athlete result</h1>
-<p><c:out value="${message}"/></p>
-<a href="athleteList">Back to athletes list</a><br/>
+<div class="image1" style="background-image:url(<c:url value='/resources/images/running1.jpeg' />)">
+    <div class="error box" style="height: 200px;">
+        <br>
+        <h1>Add athlete result</h1>
+        <p><c:out value="${message}"/></p>
+        <a href="athleteList">Back to athletes list</a>
+    </div>
 
+
+
+</div>
 </body>
 </html>

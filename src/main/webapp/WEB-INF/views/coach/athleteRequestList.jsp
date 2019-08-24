@@ -18,14 +18,17 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
+<div class="image1" style="background-image:url(<c:url value='/resources/images/running1.jpeg' />)">
+    <br>
+    <p class="table-head">Athletes request list</p>
 
-<h3>Request list</h3>
-
-<table class="table1">
+<table class="container">
     <tr>
         <th>Login</th>
         <th>FirstName</th>
         <th>LastName</th>
+        <th>Cancel invitation</th>
+
     </tr>
     <c:forEach var="potentialAthlete" items="${potentialAthletes}">
         <tr>

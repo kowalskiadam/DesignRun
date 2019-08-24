@@ -57,6 +57,31 @@ public class MethodController {
 
     //to test
     @GetMapping(value = "/details")
+    public String showDetails(Model model, @PathVariable Long id) {
+        Coach coach = checkCoachSecurity();
+        Method method = methodRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        if (coach == null || !method.getOwner().getId().equals(coach.getId())){
+            return "redirect:/login";
+        } else {
+            model.addAttribute("method", method);
+            return "method/details";
+        }
+    }
+
+    @GetMapping(value = "/trainingTypesList")
+    public String showTrainingTypeList(Model model, @PathVariable Long id) {
+        Coach coach = checkCoachSecurity();
+        Method method = methodRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        if (coach == null || !method.getOwner().getId().equals(coach.getId())){
+            return "redirect:/login";
+        } else {
+            List<TrainingType> trainingTypes = trainingTypeRepository.getByMethodId(id);
+            model.addAttribute("trainingTypes", trainingTypes);
+            return "method/trainingTypesList";
+        }
+    }
+
+    @GetMapping(value = "/update")
     public String showUpdateForm(Model model, @PathVariable Long id) {
         Coach coach = checkCoachSecurity();
         Method method = methodRepository.findById(id).orElseThrow(IllegalArgumentException::new);
@@ -64,16 +89,13 @@ public class MethodController {
             return "redirect:/login";
         } else {
             model.addAttribute("method", method);
-            List<TrainingType> trainingTypes = trainingTypeRepository.getByMethodId(id);
-            model.addAttribute("trainingTypes", trainingTypes);
-            System.out.println(trainingTypes.toString());
-            return "method/details";
+            return "method/update";
         }
     }
 
     //to test
-    @PostMapping(value="/details")
-    public String executeUpdate(@ModelAttribute @Valid Method method, BindingResult bindingResult, @PathVariable Long id){
+    @PostMapping(value="/update")
+    public String trainingTypeList(@ModelAttribute @Valid Method method, BindingResult bindingResult, @PathVariable Long id){
         if (bindingResult.hasErrors()){
             return "method/details";
         }
@@ -81,12 +103,11 @@ public class MethodController {
         oldMethod.setName(method.getName());
         oldMethod.setShortDescription(method.getShortDescription());
         methodRepository.save(oldMethod);
-        Long ownerId = oldMethod.getOwner().getId();
         return "redirect:/coach/methodsList";
     }
 
     //to test
-    @GetMapping(value = "/details/addTrainingType")
+    @GetMapping(value = "/addTrainingType")
     public String showAddTraningType(Model model, @PathVariable Long id) {
 
         Coach coach = checkCoachSecurity();
@@ -100,7 +121,7 @@ public class MethodController {
     }
 
     //to test
-    @PostMapping(value = "/details/addTrainingType")
+    @PostMapping(value = "/addTrainingType")
     public String executeAddTraningType(@ModelAttribute @Valid TrainingType trainingType, BindingResult bindingResult, @PathVariable Long id){
         if (bindingResult.hasErrors()){
             return "method/addTrainingType";

@@ -11,12 +11,12 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
-
-<h1>Create new trainer</h1>
+<div class="image1" style="background-image:url(<c:url value='/resources/images/running1.jpeg' />)">
+    <div class="form-style-6">
+<h1>Create new athlete</h1>
 <br/>
 
 ${message}
-Create new athlete
 <form:form method="post" modelAttribute="athlete">
 
     <label for="loginId">Login:</label>
@@ -40,7 +40,8 @@ Create new athlete
     <input type="submit" value="Create">
 
 </form:form>
-
+    </div>
+</div>
 
 
 </body>

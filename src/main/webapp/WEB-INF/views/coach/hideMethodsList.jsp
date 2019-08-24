@@ -18,25 +18,27 @@
 <body>
 <%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
 
+<div class="image1" style="background-image:url(<c:url value='/resources/images/running1.jpeg' />)">
+    <br>
+    <p class="table-head">Hide method list</p>
 
-<br>
-<h2>methodsList</h2>
-<br>
-<table>
+<table class="container">
     <tr>
         <th>Name</th>
         <th>Description</th>
+        <th>Unhide</th>
     </tr>
     <c:forEach var="method" items="${coachHideMethods}">
         <tr>
             <td>${method.name}</td>
             <td>${method.shortDescription}</td>
             <td>
-                <a href="#" onclick="confirmUnHide(${method.id}, '${method.name}')">Unhide</a>
+                <a class="day-link" href="#" onclick="confirmUnHide(${method.id}, '${method.name}')">Unhide</a>
             </td>
         </tr>
 
     </c:forEach>
 </table>
+</div>
 </body>
 </html>
