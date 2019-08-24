@@ -9,7 +9,7 @@
 
 </head>
 <body>
-<%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
+<%@ include file="/WEB-INF/fragments/headerAthlete.jspf" %>
 <div class="image1" style="background-image:url(<c:url value='/resources/images/running1.jpeg' />)">
     <br>
     <p class="table-head">Your plans</p>

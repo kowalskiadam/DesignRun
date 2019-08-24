@@ -49,7 +49,7 @@ public class LoginController {
         if (loggedInUser instanceof Coach){
             return "redirect: coach/plansList";
         } else if (loggedInUser instanceof Athlete){
-            return "redirect: athlete/dashboard";
+            return "redirect: athlete/planList";
         } else {
             return "main/login";
         }
@@ -60,7 +60,7 @@ public class LoginController {
 
     @RequestMapping("/logout-success")
     public String logoutPage() {
-        return "logout";
+        return "redirect: main/login";
     }
 
     @RequestMapping("/newCoach")
