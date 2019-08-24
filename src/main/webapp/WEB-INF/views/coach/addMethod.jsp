@@ -11,8 +11,25 @@
 <body>
 <%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
 
+
+
+<div class="image1" style="background-image:url(<c:url value='/resources/images/mountain.jpg' />)">
+    <h1>Contact Us</h1>
+    <form>
+        <input type="text" name="field1" placeholder="Your Name" />
+        <input type="email" name="field2" placeholder="Email Address" />
+        <textarea name="field3" placeholder="Type your Message"></textarea>
+        <input type="submit" value="Send" />
+    </form>
+
+
+
 <h1>Add method</h1>
-<form:form method="post" modelAttribute="method">
+
+<div class="form-style-6">
+    <h1>Create new method</h1>
+
+    <form:form method="post" modelAttribute="method">
 
     <label for="nameId">Name:</label>
     <form:input type="text" path="name" id="nameId" value="testPlan"/>
@@ -29,5 +46,7 @@
     <input type="submit" value="Add">
 
 </form:form>
+</div>
+</div>
 </body>
 </html>
