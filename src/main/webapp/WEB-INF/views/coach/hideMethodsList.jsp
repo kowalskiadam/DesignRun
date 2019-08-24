@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Adamk
-  Date: 30.07.2019
-  Time: 16:48
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -18,10 +12,12 @@
             }
         }
     </script>
+    <link href='<c:url value="/resources/css/style.css"/>' rel="stylesheet" type="text/css">
+
 </head>
 <body>
-<a href="dashboard">Back to dashboard</a><br/>
-<a href="addMethod">Create new training method</a><br/>
+<%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
+
 
 <br>
 <h2>methodsList</h2>

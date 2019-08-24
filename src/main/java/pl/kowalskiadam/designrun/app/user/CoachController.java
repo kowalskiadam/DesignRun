@@ -159,7 +159,7 @@ public class CoachController {
         planRepository.save(plan);
         generateTrainingsNew(plan, planForm.getTrainingFormsInWeekdays());
         planRepository.save(plan);
-        return "redirect:/coach/dashboard";
+        return "redirect:/coach/plansList";
     }
 
     @GetMapping("methodsList")
@@ -265,15 +265,40 @@ public class CoachController {
         } else {
             Long id = coach.getId();
             List<Athlete> athletes = athleteRepository.getAthleteByCoaches(id);
-            List<Athlete> potentialAthletes = athleteRepository.getPotentialAthleteByCoaches(id);
             model.addAttribute("athletes", athletes);
-            model.addAttribute("potentialAthletes", potentialAthletes);
             model.addAttribute("coachId", id);
             return "coach/athleteList";
         }
     }
 
-    @PostMapping("athleteList")
+    @GetMapping("athleteRequestList")
+    public String showAthletesRequest(Model model){
+        Coach coach = checkCoachSecurity();
+        if (coach == null){
+            return "redirect:/login";
+        } else {
+            Long id = coach.getId();
+            List<Athlete> potentialAthletes = athleteRepository.getPotentialAthleteByCoaches(id);
+            model.addAttribute("potentialAthletes", potentialAthletes);
+            model.addAttribute("coachId", id);
+            return "coach/athleteRequestList";
+        }
+    }
+
+    @GetMapping("findAthlete")
+    public String findAthlete(Model model){
+        Coach coach = checkCoachSecurity();
+        if (coach == null){
+            return "redirect:/login";
+        } else {
+            Long id = coach.getId();
+            model.addAttribute("coachId", id);
+            return "coach/findAthlete";
+        }
+    }
+
+
+    @PostMapping("findAthlete")
     public String findAthete(@RequestParam  String loginToFind, Model model){
 
         Coach coach = checkCoachSecurity();

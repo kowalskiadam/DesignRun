@@ -47,7 +47,7 @@ public class LoginController {
         User loggedInUser = ((UserPrincipal) authentication.getPrincipal()).getUserDetails();
         model.addAttribute("loggedInUser", loggedInUser);
         if (loggedInUser instanceof Coach){
-            return "redirect: coach/dashboard";
+            return "redirect: coach/plansList";
         } else if (loggedInUser instanceof Athlete){
             return "redirect: athlete/dashboard";
         } else {

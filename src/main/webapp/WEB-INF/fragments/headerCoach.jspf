@@ -1,0 +1,70 @@
+<%--
+https://www.w3schools.com/howto/howto_js_responsive_navbar_dropdown.asp
+--%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<script>
+    function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+            x.className += " responsive";
+        } else {
+            x.className = "topnav";
+        }
+    }
+</script>
+<div class="topnav" id="myTopnav">
+    <div class="dropdown">
+        <button class="dropbtn">Plans
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href="/coach/plansList">List</a>
+            <a href="/coach/addPlan1">Add</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <button class="dropbtn">Athletes
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href="/coach/athleteList">List</a>
+            <a href="/coach/newAthlete">New</a>
+            <a href="/coach/findAthlete">Find</a>
+            <a href="/coach/athleteRequestList">Request send</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <button class="dropbtn">Methods
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href="/coach/methodsList">List</a>
+            <a href="/coach/addMethod">Add</a>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <button class="dropbtn">Advanced
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href="/coach/hideMethodsList">Hide methods</a>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<%--
+<div class="navbar">
+    <a href="plansList">Manage plans</a>
+    <a href="athleteList">Manage athletes</a>
+    <a href="methodsList">Training methods</a>
+    <a href="advanced">Advanced</a>
+</div>--%>

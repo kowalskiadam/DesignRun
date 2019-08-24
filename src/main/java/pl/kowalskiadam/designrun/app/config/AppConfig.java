@@ -12,6 +12,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleContextResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -65,6 +66,10 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         localeResolver.setDefaultLocale(new Locale("pl","PL"));
         return localeResolver; }
 
+    @Override
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    }
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
@@ -75,6 +80,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         registry.addConverter(getWeekConverter());
         registry.addConverter(getPlanConverter());
     }
+
     @Bean
     public AthleteConverter getAthleteConverter() {
         return new AthleteConverter();

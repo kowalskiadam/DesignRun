@@ -1,18 +1,18 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Adamk
-  Date: 04.08.2019
-  Time: 15:01
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+
 <html>
 <head>
     <title>Title</title>
+    <link href='<c:url value="/resources/css/style.css"/>' rel="stylesheet" type="text/css">
+
 </head>
 <body>
-<h1>Add plan 1/x</h1>
+<%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
+
+<h1>Add plan 1/2</h1>
 <form:form method="post" modelAttribute="planForm">
 
     <label for="nameId">Name:</label>
