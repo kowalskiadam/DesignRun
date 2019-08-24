@@ -1,23 +1,24 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Adamk
-  Date: 03.08.2019
-  Time: 14:58
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Title</title>
+    <link href='<c:url value="/resources/css/style.css"/>' rel="stylesheet" type="text/css">
+
 </head>
 <body>
-<h1>Your plans</h1>
-<table>
+<%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
+<div class="image1" style="background-image:url(<c:url value='/resources/images/running1.jpeg' />)">
+    <br>
+    <p class="table-head">Your plans</p>
+<table class="container">
     <tr>
         <th>Plan's name</th>
         <th>Start date</th>
         <th>Coach login</th>
+        <th>Actions</th>
     </tr>
     <c:forEach var="plan" items="${plans}">
         <tr>
@@ -25,7 +26,7 @@
             <td>${plan.startDay}</td>
             <td>${plan.coach.login}</td>
             <td>
-                <a href="/plan/${plan.id}/athlete/allTrainingsByWeeks/">Show trainings</a>
+                <a class="training-link" href="/plan/${plan.id}/athlete/allTrainingsByWeeks/">Show trainings</a>
             </td>
 
         </tr>

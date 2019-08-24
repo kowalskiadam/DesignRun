@@ -20,7 +20,7 @@ https://www.w3schools.com/howto/howto_js_responsive_navbar_dropdown.asp
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
-            <a href="/coach/plansList">List</a>
+            <a href="/athlete/planList">List</a>
         </div>
     </div>
 
@@ -29,7 +29,7 @@ https://www.w3schools.com/howto/howto_js_responsive_navbar_dropdown.asp
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content">
-            <a href="/coach/athleteList">Coach list</a>
+            <a href="/athlete/coachList">Coach list</a>
         </div>
     </div>
 
