@@ -29,12 +29,12 @@
 
     <br>
 
-    <label for="methodId">Athlete:</label>
+    <label for="methodId">Method:</label>
     <form:select path="method" items="${planForm.coachMethods}" itemValue="id" itemLabel="name" id="methodId"/>
 
     <br>
 
-    <label for="mondaysId">Athlete:</label>
+    <label for="mondaysId">Start date:</label>
     <form:select path="startDay" items="${planForm.mondays}" id="mondaysId"/>
 
     <br>

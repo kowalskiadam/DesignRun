@@ -32,7 +32,9 @@ public class Training {
 
         private String athleteComment;
 
+        private String coachFeedback;
 
+        private boolean importantChanges;
 
         public Long getId() {
         return id;
@@ -100,6 +102,22 @@ public class Training {
 
     public void setAthleteComment(String athleteComment) {
         this.athleteComment = athleteComment;
+    }
+
+    public String getCoachFeedback() {
+        return coachFeedback;
+    }
+
+    public void setCoachFeedback(String coachFeedback) {
+        this.coachFeedback = coachFeedback;
+    }
+
+    public boolean isImportantChanges() {
+        return importantChanges;
+    }
+
+    public void setImportantChanges(boolean importantChanges) {
+        this.importantChanges = importantChanges;
     }
 
     public void generateName(){

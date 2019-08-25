@@ -42,6 +42,22 @@
         Training type decription: ${training.trainingType.description}
     </div>
 
+
+    <div class="info box4inline">
+       Your comment: ${training.athleteComment}
+       <br>
+        <a class="training-link" href="/plan/${plan.id}/athlete/training/${training.id}/editComment">Edit</a>
+
+    </div>
+
+
+    <div class="info box4inline">
+        Coach feedback: ${training.coachFeedback}
+    </div>
+
+
+
+
 </div>
 
 

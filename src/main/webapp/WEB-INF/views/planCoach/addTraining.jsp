@@ -17,9 +17,13 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
+<div class="image1" style="background-image:url(<c:url value='/resources/images/running1.jpeg' />)">
 
-<form:form method="post" modelAttribute="training">
+    <div class="form-style-6">
+        <h1>Add new training</h1>
 
+    <form:form method="post" modelAttribute="training">
+<br>
 
     <label for="trainingTypeId">Training type:</label>
     <form:select path="trainingType" items="${trainingTypes}" itemValue="id" itemLabel="name" id="trainingTypeId"/>
@@ -50,7 +54,8 @@
     <input type="submit" value="Create">
 
 </form:form>
-
+    </div>
+</div>
 
 
 </body>

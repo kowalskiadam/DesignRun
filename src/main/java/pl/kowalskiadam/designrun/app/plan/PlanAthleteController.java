@@ -6,9 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.kowalskiadam.designrun.app.method.TrainingTypeRepository;
 import pl.kowalskiadam.designrun.app.user.Athlete;
 import pl.kowalskiadam.designrun.app.user.AthleteRepository;
@@ -59,6 +57,37 @@ public class PlanAthleteController {
             return "planAthlete/allTrainingsByWeeks";
         }
     }
+
+    @GetMapping("/training/{trainingId}/editComment")
+    public String editComment(@PathVariable Long id, @PathVariable Long trainingId, Model model){
+
+        Athlete athlete = checkAthleteSecurity();
+        Plan plan = planRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        Training training = trainingRepository.findById(trainingId).orElseThrow(IllegalArgumentException::new);
+        if (athlete == null || !plan.getAthlete().getId().equals(athlete.getId())){
+            return "redirect:/login";
+        } else {
+            model.addAttribute("training", training);
+            return "athlete/editComment";
+        }
+    }
+
+    @PostMapping("/training/{trainingId}/editComment")
+    public String updateCommit(@PathVariable Long id, @PathVariable Long trainingId, @ModelAttribute Training training){
+
+        Athlete athlete = checkAthleteSecurity();
+        Plan plan = planRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        if (athlete == null || !plan.getAthlete().getId().equals(athlete.getId())){
+            return "redirect:/login";
+        } else {
+            Training updatedTraining = trainingRepository.findById(trainingId).orElseThrow(IllegalArgumentException::new);
+            updatedTraining.setAthleteComment(training.getAthleteComment());
+            trainingRepository.save(updatedTraining);
+            return "redirect: /training/{trainingId}/athleteView";
+        }
+    }
+
+
 
     private Athlete checkAthleteSecurity(){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

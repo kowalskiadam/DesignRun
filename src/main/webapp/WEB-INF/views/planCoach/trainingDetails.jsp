@@ -12,12 +12,16 @@
             }
         }
     </script>
-    <link href='<c:url value="/resources/css/style.css"></c:url>' rel="stylesheet" type="text/css">
+ <link href='<c:url value="/resources/css/style.css"/>' rel="stylesheet" type="text/css">
 
 </head>
 <body>
 <%@ include file="/WEB-INF/fragments/headerCoach.jspf" %>
+<div class="image1" style="background-image:url(<c:url value='/resources/images/running1.jpeg' />)">
+ <br/>
 
+ <div class="form-style-6">
+  <h1>Edit training</h1>
 <form:form method="post" modelAttribute="training">
 
    <form:input type="hidden" path="id"/>
@@ -50,7 +54,7 @@
     <br>
 
     <label for="descriptionId">Description:</label>
-    <form:textarea type="text" rows="10" cols="50" path="description" id="descriptionId"/>
+    <form:textarea type="text" rows="4" cols="100" path="description" id="descriptionId"/>
     <form:errors path="description" />
 
     <br>
@@ -59,8 +63,14 @@
 
 </form:form>
 
-<a href="#" onclick="confirmDelete(${training.id}, '${training.name}')">Delete</a>
+  <p>
+   <a href="#" onclick="confirmDelete(${training.id}, '${training.name}')">Delete</a>
+   <a href="/training/${training.id}/giveFeedback">Give feedback</a>
+  </p>
 
+
+ </div>
+</div>
 
 </body>
 </html>

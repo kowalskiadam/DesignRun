@@ -59,6 +59,38 @@ public class TrainingController {
         }
     }
 
+
+    @GetMapping("/giveFeedback")
+    @Transactional
+    public String giveFeedback(@PathVariable Long id, Model model){
+        Training training = trainingRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        Coach coach = checkCoachSecurity();
+        Plan plan = planRepository.findById(training.getDay().getWeek().getPlan().getId()).orElseThrow(IllegalArgumentException::new);
+        if (coach == null || !plan.getCoach().getId().equals(coach.getId())){
+            return "redirect:/login";
+        } else {
+            model.addAttribute("training", training);
+            model.addAttribute("plan", plan);
+            return "planCoach/giveFeedback";
+        }
+    }
+
+    @PostMapping("/giveFeedback")
+    @Transactional
+    public String saveFeedback(@PathVariable Long id, @ModelAttribute Training training){
+        Training trainingToChange = trainingRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        Coach coach = checkCoachSecurity();
+        Plan plan = planRepository.findById(trainingToChange.getDay().getWeek().getPlan().getId()).orElseThrow(IllegalArgumentException::new);
+        if (coach == null || !plan.getCoach().getId().equals(coach.getId())){
+            return "redirect:/login";
+        } else {
+            trainingToChange.setCoachFeedback(training.getCoachFeedback());
+            trainingRepository.save(trainingToChange);
+            return "redirect: /training/{id}/details";
+        }
+    }
+
+
     @PostMapping("/details")
     public String createNewMethod(@ModelAttribute @Valid Training training, BindingResult bindingResult, @PathVariable Long id){
         if (bindingResult.hasErrors()){
@@ -127,6 +159,7 @@ public class TrainingController {
             return "redirect:/login";
         } else {
             model.addAttribute("training", training);
+            model.addAttribute("plan", plan);
             return "planAthlete/trainingDetails";
         }
     }
