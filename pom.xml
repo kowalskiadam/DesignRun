@@ -28,6 +28,10 @@
 
     </build>
 
+    <properties>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+    </properties>
+
     <packaging>war</packaging>
 
     <dependencies>
