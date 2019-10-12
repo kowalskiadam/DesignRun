@@ -11,6 +11,9 @@
 <%@ include file="/WEB-INF/fragments/headerAthlete.jspf" %>
 <div class="image1" style="background-image:url(<c:url value='/resources/images/running1.jpeg' />)">
     <br>
+    <a href="/athlete/planList">Back</a>
+
+    <br>
 <table class="container">
     <tr>
         <th>Week</th>

@@ -86,7 +86,7 @@ public class TrainingController {
         } else {
             trainingToChange.setCoachFeedback(training.getCoachFeedback());
             trainingRepository.save(trainingToChange);
-            return "redirect: /training/{id}/details";
+            return "redirect: /training/{id}/giveFeedback";
         }
     }
 

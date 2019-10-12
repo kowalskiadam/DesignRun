@@ -89,9 +89,8 @@ public class PlanCoachController {
 
     @GetMapping("/addTraining/{date}")
     public String add(@PathVariable Long id, @PathVariable String date, Model model){
-        Training training = trainingRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         Coach coach = checkCoachSecurity();
-        Plan plan = planRepository.findById(training.getDay().getWeek().getPlan().getId()).orElseThrow(IllegalArgumentException::new);
+        Plan plan = planRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         if (coach == null || !plan.getCoach().getId().equals(coach.getId())){
             return "redirect:/login";
         } else {

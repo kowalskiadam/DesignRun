@@ -13,6 +13,7 @@
 <body>
 <h1 style="text-align: center">Login page</h1>
 ${SPRING_SECURITY_LAST_EXCEPTION.message}
+
 <div class="login-page">
 <form class="form-style-6" action="login" method='POST'>
 
